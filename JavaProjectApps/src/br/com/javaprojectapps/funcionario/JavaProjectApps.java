@@ -36,6 +36,7 @@ Funcionario f1 = new Funcionario();
 		
 		//imprime as informações do funcionário
 		f1.mosta();
+                
 		
 		/*System.out.println("nome:"+f1.nome
 				+"\nSalario "+f1.salario
