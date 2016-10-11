@@ -1,0 +1,101 @@
+<style>
+#idTxtPedConfirmadoFC{height:30px;padding:10px;background-color:#007dd4;color:#fcfcfc;font-size:14pt;}
+#idDadosPagtoFC{font-size:9pt;}
+#EstNomePagto{color:#555555;font-size:11pt;font-weight:bold;}
+#PassosCompra,.idTxtPrintFC{display:none;}
+</style>
+
+<!-- Altere onde está 9 de acordo com o Pagto utilizado na loja -->
+<!-- Pagto 1 = 9, Pagto 2 = 10, Pagto 3 = 11, Pagto 4 = 12 e Pagto 5 = 13 -->
+
+<!-- Altere onde está email@cadastradonopagamentodigital.com.br de acordo com o e-mail cadastrado no Pagamento Digital -->
+
+<!-- Este exemplo, permite a inclusão de até 10 produtos no pedido. Para aumentar este limite será necessário aumentar os parâmetros de produtos (produto_codigo_X, produto_descricao_X, produto_qtde_X e produto_valor_X) -->
+
+
+<script>
+if(<IDFormaPagamento>==9){
+  document.write('<form name="pagamentodigital" action="https://www.pagamentodigital.com.br/checkout/pay/" method="post" target="iframe_pd_pf">');
+  document.write('<input name="email_loja" type="hidden" value="financeiro123@comprafiel.com.br">');
+  document.write('<input name="id_pedido" type="hidden" value="<NumPedido>">');
+  document.write('<input name="email" type="hidden" value="<EmailCliente>">');
+  document.write('<input name="nome" type="hidden" value="<NomeCompletoCliente>">');
+  document.write('<input name="cpf" type="hidden" value="<CPFCNPJ>">');
+  document.write('<input name="telefone" type="hidden" value="<TelefoneCliente>">');
+  document.write('<input name="endereco" type="hidden" value="<EnderecoCliente>">');
+  document.write('<input name="bairro" type="hidden" value="<BairroCliente>">');
+  document.write('<input name="cidade" type="hidden" value="<CidadeCliente>">');
+  document.write('<input name="estado" type="hidden" value="<EstadoCliente>">');
+  document.write('<input name="cep" type="hidden" value="<CEPCliente>">');
+  document.write('<input name="produto_codigo_1" type="hidden" value="<RefProduto1>">');
+  document.write('<input name="produto_descricao_1" type="hidden" value="<NomeProduto1>">');
+  document.write('<input name="produto_qtde_1" type="hidden" value="<QtdProduto1>">');
+  document.write('<input name="produto_valor_1" type="hidden" value="<PrecoUnitProduto1>">');
+  document.write('<input name="produto_codigo_2" type="hidden" value="<RefProduto2>">');
+  document.write('<input name="produto_descricao_2" type="hidden" value="<NomeProduto2>">');
+  document.write('<input name="produto_qtde_2" type="hidden" value="<QtdProduto2>">');
+  document.write('<input name="produto_valor_2" type="hidden" value="<PrecoUnitProduto2>">');
+  document.write('<input name="produto_codigo_3" type="hidden" value="<RefProduto3>">');
+  document.write('<input name="produto_descricao_3" type="hidden" value="<NomeProduto3>">');
+  document.write('<input name="produto_qtde_3" type="hidden" value="<QtdProduto3>">');
+  document.write('<input name="produto_valor_3" type="hidden" value="<PrecoUnitProduto3>">');
+  document.write('<input name="produto_codigo_4" type="hidden" value="<RefProduto4>">');
+  document.write('<input name="produto_descricao_4" type="hidden" value="<NomeProduto4>">');
+  document.write('<input name="produto_qtde_4" type="hidden" value="<QtdProduto4>">');
+  document.write('<input name="produto_valor_4" type="hidden" value="<PrecoUnitProduto4>">');
+  document.write('<input name="produto_codigo_5" type="hidden" value="<RefProduto5>">');
+  document.write('<input name="produto_descricao_5" type="hidden" value="<NomeProduto5>">');
+  document.write('<input name="produto_qtde_5" type="hidden" value="<QtdProduto5>">');
+  document.write('<input name="produto_valor_5" type="hidden" value="<PrecoUnitProduto5>">');
+  document.write('<input name="produto_codigo_6" type="hidden" value="<RefProduto6>">');
+  document.write('<input name="produto_descricao_6" type="hidden" value="<NomeProduto6>">');
+  document.write('<input name="produto_qtde_6" type="hidden" value="<QtdProduto6>">');
+  document.write('<input name="produto_valor_6" type="hidden" value="<PrecoUnitProduto6>">');
+  document.write('<input name="produto_codigo_7" type="hidden" value="<RefProduto7>">');
+  document.write('<input name="produto_descricao_7" type="hidden" value="<NomeProduto7>">');
+  document.write('<input name="produto_qtde_7" type="hidden" value="<QtdProduto7>">');
+  document.write('<input name="produto_valor_7" type="hidden" value="<PrecoUnitProduto7>">');
+  document.write('<input name="produto_codigo_8" type="hidden" value="<RefProduto8>">');
+  document.write('<input name="produto_descricao_8" type="hidden" value="<NomeProduto8>">');
+  document.write('<input name="produto_qtde_8" type="hidden" value="<QtdProduto8>">');
+  document.write('<input name="produto_valor_8" type="hidden" value="<PrecoUnitProduto8>">');
+  document.write('<input name="produto_codigo_9" type="hidden" value="<RefProduto9>">');
+  document.write('<input name="produto_descricao_9" type="hidden" value="<NomeProduto9>">');
+  document.write('<input name="produto_qtde_9" type="hidden" value="<QtdProduto9>">');
+  document.write('<input name="produto_valor_9" type="hidden" value="<PrecoUnitProduto9>">');
+  document.write('<input name="produto_codigo_10" type="hidden" value="<RefProduto10>">');
+  document.write('<input name="produto_descricao_10" type="hidden" value="<NomeProduto10>">');
+  document.write('<input name="produto_qtde_10" type="hidden" value="<QtdProduto10>">');
+  document.write('<input name="produto_valor_10" type="hidden" value="<PrecoUnitProduto10>">');
+  document.write('<input name="tipo_integracao" type="hidden" value="PAD">');
+  document.write('<input name="frete" type="hidden" value="<Frete>">');
+  document.write('<input name="desconto" type="hidden" value="<DescontoCupom>">');
+  document.write('<input name="acrescimo" type="hidden" value="<ValorEmbalagemPedido>">');
+  document.write('</form>');
+
+  var t = setTimeout("document.pagamentodigital.submit();",1000); //2 seconds measured in miliseconds
+//  document.write('<iframe name="iframe_pd_pf" src="" width="100%" height="1500px" frameborder="0"></iframe>'); //OK e funcionando
+
+
+var sDadosPagto="<br><br><table width=100% align=center class=EstTabPedido><tr height=25><td class=EstTabPedidoTit align=center>Dados para pagamento</td></tr><tr><td align=center width=980><br><iframe name='iframe_pd_pf' src='' width='980px' height='1300px' frameborder='0'></iframe><br><br>"+ document.getElementById('idDadosPagtoFC').innerHTML +"</td></tr></table>"; //Instruções e botão para pagamento
+var sBannerEbit="<center><a href='http://www.ebit.com.br/ebit/rate/asp/index_empresa.asp?empresa=1299855' target='_blank'><img src='https://www.ebitempresa.com.br/bitrate/banners/b1299855.gif' alt='O que você achou desta loja?' border=0 width='468' height='60'></a></center>";  //Banner do e-bit
+
+setTimeout("document.getElementById('idDadosPagtoFC').innerHTML='';",10); //Remove da parte inferior os dados para pagamento
+setTimeout("document.getElementById('idTopoConfirmacaoFC').innerHTML=sDadosPagto+sBannerEbit+'<br><br><span class=Titulos>Informações do seu pedido:</span>';",10);  //Insere no topo da página de pedido confirmado as instruções para pagamento + banner do ebit
+}
+
+var TotalSFrete=<TotalSemFrete>;
+var NumP=<NumParcelas>;
+
+// Informe o desconto que é oferecido de acordo com as regras da página "Pagamentos".
+//if(TotalSFrete>=210)var Desc1=30;
+//else if(TotalSFrete>=160)var Desc1=20;
+//else if(TotalSFrete>=90)var Desc1=10;
+
+//var Desc1
+//var FatorDesc=Desc1/100
+//Total=((TotalSFrete*100)/(100-Desc1)*FatorDesc);
+
+//coloca o resultado no campo hidden
+//document.pagamentodigital.desconto.value=Total;
+</script>
