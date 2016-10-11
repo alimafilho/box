@@ -1,0 +1,649 @@
+// FastCommerce - EstiloProduto.htm (Modelo personalizado 1)
+
+<ProdTop>
+
+<script>
+
+// Verifica se tem estoque
+function TemProduto(iEstoque, idProd){
+
+  if(iEstoque == 0){
+    var str = "<p style='text-align:center; display:block; padding:5px; border:1px solid #900; background-color: #d20216;'>Produto esgotado</p>";
+    document.getElementById('botItem'+idProd).innerHTML = str;
+  }
+//verifica se a loja utiliza o recruso de ocultar carrinho em produto com subproduto 
+  oDisponivel =document.getElementById('idQTIncMult_'+idProd);
+
+  if(oDisponivel){
+    var str =""; 
+    str +="<table border='0' width='90'  height='18' cellpadding='0' cellspacing='0' style='display:table;'><tr><td>";
+    str +=  "<img id='idQTAdd_"+idProd+"' src='<BaseLoja>images/add.png' style='float:left; cursor:pointer; border:0; padding:0; margin:2px;' />";
+    str +=  "<img id='idQTRem_"+idProd+"' src='<BaseLoja>images/remove.png' style='float:left; cursor:pointer; border:0; padding:0; margin:2px;' />";
+    str +="</td></tr></table>";
+    
+    str +="<table border='0' width='130'  height='18' cellpadding='0' cellspacing='0' style='display:table;margin-top:3px;'><tr><td>";
+    str +=   "<img id='idQTAll_"+idProd+"' src='<BaseLoja>images/addAll.png' style='float:left;cursor:pointer;border:0; padding:0; margin:2px;' />";
+    str +=   "<img id='idQTRemover_"+idProd+"' src='<BaseLoja>images/removeAll.png' style='float:left;cursor:pointer;border:0; padding:0; margin:2px;' />";
+    str +="</td></tr></table>";
+
+  document.getElementById('botItem'+idProd).innerHTML = str;
+  }
+}
+
+</script>
+
+<script type="text/javascript">
+
+function addItens(i,id){ 
+  jQuery('#idQTIncMult_'+id).attr('value', i);
+  jQuery("#mascara").hide();
+  jQuery(".window").hide();
+}
+
+function verifcaCampos(IDSubProduto,EstoqueSubProd){        
+
+  iEstDigitado = jQuery('#idQTIncMult_'+IDSubProduto).val(); //obtém o estoque digitado pelo cliente
+  iEstAtual= EstoqueSubProd; //obtém o estoque do produto através da tag especial < Estoque > 
+  iEstDigitado = parseInt(iEstDigitado.replace(/^0+/,'' ));//converter para valor inteiro -- remove 0 a esquerda
+ 
+  //compara a quantidade de estoque
+  if (iEstDigitado > 0){ //só entra na validação se estoque digitado for maior do que 0
+
+    if(iEstDigitado > iEstAtual){
+        jQuery('#idQTIncMult_'+IDSubProduto).attr('value', 0 ); //retorna 0 no campo digitado
+
+/*
+decisao = confirm("Quantidade solicitada("+iEstDigitado+") é maior que o estoque disponível no momento. Estoque atual é "+ iEstAtual +".\nDeseja selecionar essa quantidade?");
+if (decisao){
+    //alert ("Foi selecionado a quantidade "+ iEstAtual);
+    jQuery('#idQTIncMult_'+IDSubProduto).attr('value', EstoqueSubProd );  //retorna o estoque atual já preenchido no campo digitado
+
+} else{jQuery('#idQTIncMult_'+IDSubProduto).attr('value', 0 );}
+
+*/
+
+var posiçãoReal = jQuery('#idQTIncMult_'+IDSubProduto).offset();
+//alert(posiçãoReal.top);
+//alert(posiçãoReal.left);
+
+  var janelaAviso = "<a href='#' class='fechar'>X Fechar</a>";
+      janelaAviso +="<p>Quantidade solicitada<b style='color:#f00; font-size:1.3em;'>("+iEstDigitado+")</b> é maior que o estoque disponível no momento.<br /> Estoque atual é <b style='color:#f00; font-size:1.5em;'>"+ iEstAtual +"</b>.</p><br />";
+      janelaAviso +="<a href='javascript:void(0)' class='botAddTotal' onclick='addItens(" +iEstAtual +","+IDSubProduto+")';>Selecionar o estoque atual</a>";
+
+
+ jQuery('#janela1').html(janelaAviso);
+
+
+
+
+        lag = jQuery('#janela1').innerWidth();
+        alt =jQuery('#janela1').innerHeight();
+
+        var alturaTela = jQuery(document).height();
+        var larguraTela = jQuery(window).width();
+     
+        //colocando o fundo preto
+        jQuery('#mascara').css({'width':larguraTela,'height':alturaTela});
+        jQuery('#mascara').fadeIn(1000);
+        jQuery('#mascara').fadeTo("slow",0.8);
+ /*
+        var left = (jQuery(window).width() /2) - ( jQuery(id).width() / 2 );
+        var top = (jQuery(window).height() / 2) - ( jQuery(id).height() / 2 );
+     */
+        jQuery('#janela1').css({'top':25+posiçãoReal.top,'left':posiçãoReal.left});
+        jQuery('#janela1').show();  
+
+ 
+    jQuery("#mascara").click( function(){
+        jQuery(this).hide();
+        jQuery(".window").hide();
+    });
+ 
+    jQuery('.fechar').click(function(ev){
+        ev.preventDefault();
+        jQuery("#mascara").hide();
+        jQuery(".window").hide();
+    });
+
+    jQuery('.fechar').click(function(ev){
+        ev.preventDefault();
+        jQuery("#mascara").hide();
+        jQuery(".window").hide();
+    });
+
+
+
+
+
+        //alert("Estoque maior que o disponível no momento. Estoque atual é "+ iEstAtual +".")
+
+ 
+        jQuery('#idQTIncMult_'+IDSubProduto).css({ backgroundColor: 'red'});  //adiciona o fundo vermelho
+        jQuery('#boxMsg'+IDSubProduto).html("");  // Remover mensagem de estoque        
+        jQuery('<span>') // Cria um elemento span para mensagem
+          .css({ backgroundColor: 'red', padding: '5px', margin: "2px", display: 'block', color: 'white' }) // Definindo estilos
+          .addClass('mensagemEstoque')
+          .append("Estoque solicitado não disponível! Estoque atual é "+EstoqueSubProd)
+          .appendTo('#boxMsg'+IDSubProduto);  // Adiciona ele ao elemento div com o id '#boxMsg'+IDSubProduto
+    }
+    else{
+        //alert("estoqueProd="+ iEstAtual +"  ||  estoqueInfo="+ iEstDigitado +"     tem estoque!!");
+        jQuery('#idQTIncMult_'+IDSubProduto).attr('value', iEstDigitado ); // remove 0 a esquerda
+        jQuery('#idQTIncMult_'+IDSubProduto).css({ backgroundColor: 'white'});        
+        jQuery('#boxMsg'+IDSubProduto).html("");        
+        }
+    }else{ jQuery('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque*/ }
+
+}
+
+</script>
+
+<script type="text/javascript">
+//botão adiciona item
+function AdiconaRemoveItem(IDSubProduto, EstoqueSubProd, acao){
+
+EstDigitado = jQuery('#idQTIncMult_'+IDSubProduto).val();
+
+  if(acao == true){
+      EstDigitado = parseInt(EstDigitado)+1;
+      
+      if(EstDigitado <= EstoqueSubProd){
+      jQuery('#idQTIncMult_'+IDSubProduto).attr('value', EstDigitado );
+      
+      }
+      else{
+            sConteudo = jQuery('#boxMsg'+IDSubProduto).html(); // vevifica se a span já foi inserida
+            if(sConteudo == ""){
+            jQuery('<span>') // Cria um elemento span
+            .css({ backgroundColor: 'red', padding: '5px', margin: "2px", display: 'block', color: 'white'}) // Definindo estilos
+            .addClass('mensagemEstoque')
+            .append("Estoque solicitado não disponível! Estoque atual é "+EstoqueSubProd)
+            .appendTo('#boxMsg'+IDSubProduto) // Adiciona ele ao elemento div com o id '#boxMsg'+IDSubProduto
+                 }
+            }
+  }
+  
+  //remove item
+  if(acao == false){  
+    EstDigitado = parseInt(EstDigitado)-1;  
+    if(EstDigitado <= EstoqueSubProd && EstDigitado > -1){
+        jQuery('#idQTIncMult_'+IDSubProduto).attr('value', EstDigitado );  
+     }
+    if(EstDigitado == 0){jQuery('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque */ }  
+  }
+  
+}   
+
+  function addRemoverTodosItem(IDSubProduto, Estoque, acao){
+  
+    EstDigitado = jQuery('#idQTIncMult_'+IDSubProduto).val();  
+    EstDigitado = parseInt(EstDigitado)-1;
+  
+    if(acao == "add"){
+        jQuery('#idQTIncMult_'+IDSubProduto).attr('value', Estoque );  
+     }
+    if(acao == "remover"){
+        jQuery('#idQTIncMult_'+IDSubProduto).attr('value', 0 );
+        jQuery('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque */
+     }
+   }
+</script>
+
+<style>
+.TitTabParc{font-weight:bold;font-size:8pt;font-family:tahoma,arial}
+.EstParcPar{background:#F5F5F5;font-size:8pt;font-family:tahoma,verdana}
+.EstParcImpar{background:#FFFFFF;font-size:8pt;font-family:tahoma,verdana}
+#idDivPagProd, #idDivOrder, #idDivPath, #idDivSearch {margin-top:15px;width:97%;border-style:solid;border-width:1px;border-color:#ffffff;}
+#idUlPathSearchFC {margin-left:10px;font-size:8pt;}
+#idUlPathSearchFC li{font-size:8pt;}
+#idUlPathSearchFC #idPathSearchTextInputFC{width:95px;background-color:#fcfcfc;font-size:9pt;}
+#idLinkAdvancedSearchFC {text-decoration:none;font-size:8pt;}
+#idLinkAdvancedSearchFC:hover{text-decoration:underline;color:#333333;}
+.EstTitQts {font-family:tahoma;font-size:8pt;background-color:#eaeaea;padding:5px;}
+.EstDivQts{height:100%;border-style:solid;border-width:1px;border-color:#d0d0d0;}
+#idSelPathCatQtFC, #idSelAdic1QtFC, #idSelAdic2QtFC, #idSelAdic3QtFC {width:98%;}
+#idUlPathCatQtFC li,#idUlAdic1QtFC li,#idUlAdic2QtFC li,#idUlAdic3QtFC li{list-style-type:none;font-size:8pt;margin:5px 10px 3px 5px}
+.EstTabFiltersExt{background-color:#ebebeb;height:28px;font-family:tahoma;font-size:8pt;}
+.EstTabFiltersInt{background-color:#f7f7f7;}
+</style>
+<div id="idDivPath">
+  <table width="102%" class="EstTabFiltersExt"><tr><td>
+    <table><tr>
+      <td>&nbsp;&nbsp;&nbsp;Filtros da busca:</td>
+      <td>
+        <span id="idSpanShow"><a href="#Show" onClick="ToggleIDs('idSpanHide','idSpanShow');document.getElementById('idTablePathQtsFC').style.display='';"><img src="images/IcShow.png" border="0" alt="exibir filtros" /></a></span>
+        <span id="idSpanHide" style="display:none;"><a href="#Hide" onClick="ToggleIDs('idSpanShow','idSpanHide');document.getElementById('idTablePathQtsFC').style.display='none';"><img src="images/IcHide.png" border="0" alt="esconder filtros" /></a></span>
+      </td>
+    </tr></table>
+  </td></tr></table>
+  <table id="idTablePathQtsFC" class="EstTabFiltersInt" style="display:none;" width="102%">
+    <tr>
+      <td width="25%" valign="top" id="idListaProdCategoriasFC"><div class="EstTitQts">&nbsp;<LegendaCats></div><ListPathCatQt></td>
+      <td width="25%" valign="top" id="idListaProdAdicional1FC"><div class="EstTitQts">&nbsp;<NomeAdicional1></div><ListAdic1Qt></td>
+      <td width="25%" valign="top" id="idListaProdAdicional2FC"><div class="EstTitQts">&nbsp;<NomeAdicional2></div><ListAdic2Qt></td>
+      <td width="25%" valign="top" id="idListaProdAdicional3FC"><div class="EstTitQts">&nbsp;<NomeAdicional3></div><ListAdic3Qt></td>
+    </tr>
+  </table>
+</div>
+
+<div id="idDivSearch">
+  <table width="101%" class="EstTabFiltersExt"><tr><td>&nbsp;&nbsp;&nbsp;Filtrando por</td><td id="idTDLinkAdvancedSearchFC" width="130" noWrap><LinkAdvancedSearch></td></tr></table>
+  <table id="idTablePathSearchFC" width="101%" height="40" class="EstTabFiltersInt"><tr><td><ListPathSearch></td></tr></table>
+</div>
+<JurosParcelas>
+<script>
+AjustaFiltros();
+var iQtdProds=<QtProd>;
+
+function MostraMaxParcela(PrecoProd,MaxParcelas){
+  var ComSem;
+  if(PrecoProd==0||MaxParcelas==1||Juros.length==0)return;
+  if(MaxParcelas==0||MaxParcelas>Juros.length)MaxParcelas=Juros.length;
+  if(Juros[MaxParcelas-1]>0)ComSem=""; else ComSem="<font color=#990000>&nbsp;sem&nbsp;juros</font>";
+  document.write("ou&nbsp;<b>"+MaxParcelas+"x</b>"+ComSem+" de&nbsp;<b>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,MaxParcelas))+"</b>");
+}
+
+function MostraParcelas(PrecoProd,MaxParcelas){
+  var ComSem,EstiloLinha;
+  if(PrecoProd==0||MaxParcelas==1||Juros.length==0)return;
+  if(MaxParcelas==0||MaxParcelas>Juros.length)MaxParcelas=Juros.length;
+  document.write("<br><table align=center cellpadding=3 cellspacing=1 bgcolor=#CECECE width=270><tr bgcolor=#DCDCDC><td colspan=3 height=22 class=TitTabParc align=center><b>Opções de parcelamento</td></tr><tr bgcolor=#FFFFFF><td class=TitTabParc>Parcelas</td><td align=right class=TitTabParc>Valor</td><td align=right class=TitTabParc>Total</td></tr>");
+  for(var i=0;i<MaxParcelas;i++){
+    if(Juros[i]>0)ComSem="com juros"; else ComSem="<font color=#990000>sem&nbsp;juros</font>";
+    if((i%2)==0)EstiloLinha='EstParcPar'; else EstiloLinha='EstParcImpar';
+    document.write("<tr class="+EstiloLinha+"><td class="+EstiloLinha+">"+(i+1)+"x "+ComSem+"</td><td class="+EstiloLinha+" align=right>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,i+1))+"</td><td class="+EstiloLinha+" align=right>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,i+1)*(i+1))+"</td></tr>");
+  }
+  document.write("</table><br>");
+}
+function fechar(){
+document.getElementById('fechar').style.display = 'none';
+}
+</script>
+
+<div id="idPagProdTop"></div>
+<FormProdMult>
+</ProdTop>
+
+<ProdLista>
+	<div class="ProdListaDivOff" onmouseover="this.className='ProdListaDivOn'" onmouseout="this.className='ProdListaDivOff'"><FormProd>
+		<table width="100%" border="0" class="BoxListProd">
+			<tr>
+				<td width="22%"><ImagemProd></td>
+				<td width="70%" valign="top">
+					<table width="100%" border="0"><tr><td height="21"></td></tr></table>
+					<table width="100%" border="0">
+						<tr>
+							<td width="70%" class="EstNomeLista"><NomeProd></td>
+							<td width="26%"><Lancamento><Destaque></td>							
+						</tr>
+					</table>
+					<table width="100%" border="0">
+						<tr>
+							<td  class="EstDescrLista"><Descricao></td>
+						</tr>
+					</table>
+					<table width="100%" border="0">
+						<tr>
+							<td class="EstPrecoLista"><PrecoSimples>&nbsp;<script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script></td>
+							<td><LinkComprar></td>																		
+							<td><LinkDet></td>																		
+						</tr>
+					</table>					
+				</td>
+			</tr>
+		</table>
+	</div></FormProd>
+	<br>
+</ProdLista>
+
+<ProdDet>
+<table align=center width=95% name=TabProduto<IDProduto> cellpadding=0 cellspacing=0 border=0 style="padding-right:10px">
+ <tr>
+  <td>
+
+   <!-- Produto Principal -->
+   <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+     <td colspan="2"><span class=EstNomeProd><NomeProd></span><br /><hr></td>
+    </tr>
+     
+    <tr>
+     <td width="350">
+
+<!------------- ----->
+<style>
+
+.botAddTotal{background:#f1f1f1; border:1px solid #CCC; padding: 8px 25px; display:table; text-decoration:none; font-size:1.5em; font-family: arial;}
+.window{
+    display:none;
+    width:300px;
+    height:120px;
+    position:absolute;
+    left:0;
+    top:0;
+    background:#FFF;
+    z-index:9999;
+    padding:10px;
+    border-radius:10px;
+
+
+}
+
+.window p{
+    font-family: arial, verdana;
+    font-size:1.2em;
+    margin:5px;
+}
+ 
+#mascara{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+    background-color:#E8E8E8;
+}
+ 
+.fechar{display:block; text-align:right;}
+</style>
+<a href="#janela1" rel="modal">Janela modal</a>
+ 
+<div class="window" id="janela1">
+
+</div>
+ 
+<script>
+jQuery(document).ready(function(){
+    jQuery("a[rel=modal]").click( function(ev){
+        ev.preventDefault();
+ 
+        var id = jQuery(this).attr("href");
+ 
+        var alturaTela = jQuery(document).height();
+        var larguraTela = jQuery(window).width();
+     
+        //colocando o fundo preto
+        jQuery('#mascara').css({'width':larguraTela,'height':alturaTela});
+        jQuery('#mascara').fadeIn(1000);
+        jQuery('#mascara').fadeTo("slow",0.8);
+ 
+        var left = (jQuery(window).width() /2) - ( jQuery(id).width() / 2 );
+        var top = (jQuery(window).height() / 2) - ( jQuery(id).height() / 2 );
+     
+        jQuery(id).css({'top':top,'left':left});
+        jQuery(id).show();  
+    });
+ 
+    jQuery("#mascara").click( function(){
+        jQuery(this).hide();
+        jQuery(".window").hide();
+    });
+ 
+    jQuery('.fechar').click(function(ev){
+        ev.preventDefault();
+        jQuery("#mascara").hide();
+        jQuery(".window").hide();
+    });
+});
+</script>
+ 
+<!-- mascara para cobrir o site -->  
+<div id="mascara"></div>
+
+
+                <!-- começo :: zoom com várias imagens -->
+		<script>
+		var imgDetAll = "<ImagemProdDet>";
+		var imgAmpAll = "<ImagemProdAmp>";
+		var novoArray = imgDetAll.split(',');
+		var novoArrayAmp = imgAmpAll.split(',');
+		var CountImgDet=novoArray.length;
+		var CountImgAmp=novoArrayAmp.length;
+		
+		if (imgDetAll=="" || imgAmpAll==""){
+		  document.write("");
+		}
+		else{
+		  if (CountImgDet==CountImgAmp){
+		    var FC_MaxImages=CountImgDet-1;
+		    MostraZoomImgFC();
+		  }
+		  else{
+		    var FC_MaxImages=0;
+		    MostraZoomImgFC();
+		  }
+		}
+		
+		function MostraZoomImgFC(){
+		  for (var i=0;i<=FC_MaxImages;i++)
+		  {
+		    if(i==0)
+		    {
+		         imgDetMini=novoArray[i];
+		         imgAmpMini=novoArrayAmp[i];
+		  	 document.write("<a href="+imgAmpMini+" rel='zoom-width:600px;zoom-height:380px;hint:false;' title='<NomeProd>' class='MagicZoom' id='Zoomer'><img width=200 height=200 src="+ imgDetMini +"></a><br>");
+		  	 document.write("<a href="+imgAmpMini+"  rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=45 border=1 height=45 style='margin-left:2px;margin-top:5px;border-color:#c4c4c4;'></a>");
+		    }
+		    else{
+		  	  imgDetMini="<BaseLoja>prod/"+novoArray[i];
+		  	  imgAmpMini="<BaseLoja>prod/"+novoArrayAmp[i];
+		          document.write("<a href="+imgAmpMini+" rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=45 border=1 height=45 style='margin-left:2px;margin-top:5px;border-color:#c4c4c4;'></a>");
+		    }
+		  }
+		}
+		</script>
+		<!-- fim :: zoom com várias imagens -->
+
+ <br />
+     <!-- Link Redes Sociais-->
+      <table border="0" cellpadding="3" cellspacing="0" style="border:1px solid #D4D4D4;width:270px;display:table;">
+        <tr><td colspan="6" align="center" style="background-color:#f1f1f1;">Compartilhe</td></tr>
+        <tr>    
+          <td><ShareFacebook></td>
+          <td><ShareTwitter></td>
+          <td><ShareOrkut></td>
+          <td width="60" align="center"><GooglePlusOne size="small"></td>
+          <td width="60" align="center"><Facebook type="like" layout="button_count"></td>
+          <td width="60" align="center"><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></td>
+        </tr>
+      </table>
+      <!-- Link Redes Sociais FIM-->
+
+
+   
+     </td>
+     <td valign="top">
+        <!-- 1 -->
+        <table width="100%" border="0" cellpadding="3" cellspacing="0">
+         <tr>
+          <td><Destaque><Lancamento></td>
+         </tr>
+         <tr>
+          <td>
+             <!-- nome, cetegotia e preço do produto -->   
+              <span class="EstRefProd"><PathCat><br /> Ref.: <CodProd>   | <LegendaCat>  <NomeCat></span><br />
+             <!-- nome, cetegotia e preço do produto --> 
+          </td>
+         </tr>
+         <tr>
+          <td align="right">
+             <!-- nome, cetegotia e preço do produto -->       
+              <span class=EstPrecoProd><br><PrecoSimples>&nbsp;<script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script><script>MostraEconomia(<PrecoNum>,<PrecoOri>);</script></span><br /><br /> 
+             <!-- nome, cetegotia e preço do produto --> 
+          </td>
+         </tr>  
+         <tr>
+          <td> 
+            <!-- descritores do produto -->
+              <br /> 
+              <table name=Tab1Adic<IDProduto> cellpadding=0 cellspacing=0>
+                <tr><td nowrap><Adicional1></td></tr>
+                <tr><td nowrap><Adicional2></td></tr>
+                <tr><td nowrap><Adicional3></td></tr>
+                <tr><td nowrap><AdicionalD1></td></tr>
+                <tr><td nowrap><AdicionalD2></td></tr>
+                <tr><td nowrap><AdicionalD3></td></tr>
+                <tr><td nowrap><Peso></td></tr>
+                <tr><td nowrap><Cor></td></tr>
+                <tr><td nowrap><BarCode></td></tr>
+              </table>
+             <!-- descritores do produto -->
+          </td>
+         </tr>
+         <tr>
+          <td align="center">
+              <span><IncMult></span>
+              <span><LinkComprar></span>
+          </td>
+         </tr>
+         <tr>
+          <td align="center">
+            <!-- Tabela de parcelamento -->
+             <script>MostraParcelas(<PrecoNum>,<MaxParcelasProdNum>);</script>
+            <!-- Tabela de parcelamento -->
+          </td>
+         </tr>
+        </table>    
+        <!-- 1 -->
+
+     </td>
+    </tr>
+   </table>
+<!-- Produto Principal -->
+  </td>
+ </tr>
+</table>
+<br />
+<!-- Subproduto -->
+
+<sub>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="<EstiloSubProduto>" name="TabDadosSubProduto<IDProduto>">      
+          
+          <tr>
+            <td width="15%">
+
+<!-- verifica estoque, botões add/ remove item -->
+          <script>
+          var QntdadeSub = QntdadeSub+1;
+
+          jQuery(document).ready(function(){
+          
+            var sIDProduto = <IDProduto>;
+            var sEstoque = <Estoque>;
+            
+          
+          jQuery("#idQTIncMult_"+sIDProduto).focus(function(){
+              if(jQuery(this).val() == 0){jQuery(this).attr('value', '');jQuery(this).select();}
+          });
+          jQuery("#idQTIncMult_"+sIDProduto).blur(function(){
+              if(jQuery(this).val() == ""){jQuery(this).attr('value', 0); jQuery("#idCBIncMult_"+sIDProduto).attr('checked', false);}
+          });
+          
+           /*
+            jQuery("#idQTIncMult_<IDProduto>").change(function(){   
+            verifcaCampos(sIDProduto, sEstoque); });
+           */
+
+/*
+jQuery("#idQTIncMult_<IDProduto>").bind("keyup change ", function(e){
+verifcaCampos(sIDProduto, sEstoque);
+}) 
+
+*/
+
+            jQuery("#idQTIncMult_<IDProduto>").keyup(function(){   
+            verifcaCampos(sIDProduto, sEstoque); });
+
+
+
+
+
+
+
+/*
+jQuery("#idQTIncMult_<IDProduto>").bind(
+'keyup change',
+verifcaCampos(sIDProduto, sEstoque) 
+);
+*/
+
+
+            //botões adiciona e remove item
+            jQuery("#idQTAdd_<IDProduto>").click(function(){   
+            AdiconaRemoveItem(sIDProduto, sEstoque,true); });
+            
+            jQuery("#idQTRem_<IDProduto>").click(function(){   
+            AdiconaRemoveItem(sIDProduto, sEstoque,false);});
+            
+            jQuery("#idQTAll_<IDProduto>").click(function(){   
+            addRemoverTodosItem(sIDProduto, sEstoque,'add');});
+            
+            jQuery("#idQTRemover_<IDProduto>").click(function(){   
+            addRemoverTodosItem(sIDProduto, sEstoque,'remover');});
+          
+          
+          });
+          </script>
+          <!-- Fim verifica estoque, botões add/ remove item -->
+          <style>
+          #ProdDetDiv .ImgSub .EstImgFC{width:100px; margin:1px; border:none;}
+          </style>
+
+
+                 <span class="ImgSub">
+                    <ImagemProd>
+                 </span> 
+            </td>
+            <td width="35%">
+              <div class="LinhaAdicional"> 
+                <span class="EstAdicional"><span class="AdicNome">Cod.</span><span class="AdicItem"><CodProd></span></span>
+                <span class="EstAdicional"><Cor></span>
+                <span class="EstAdicional"><Adicional1></span>
+                <span class="EstAdicional"><Adicional2></span>
+                <span class="EstAdicional"><Adicional3></span>
+                <span class="EstAdicional"><AdicionalD1></span>
+                <span class="EstAdicional"><AdicionalD2></span>
+                <span class="EstAdicional"><AdicionalD3></span>
+                <span class="EstAdicional"><Peso></span>
+              <div>
+            </td>
+            <td width="10%"><IncMult></td>
+            <td width="17%">
+                  <span class="EstPrecoProd"><PrecoSimples> <span class="EstParc">
+                    <script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script><br>
+                    <span style="font-size:8pt;color:#00f;"><script>MostraEconomia(<PrecoNum>,<PrecoOri>);</script></span></span>
+                  </span>
+               <AvisoDisp>
+            </td>
+            <td width="23%" align="center" style="">
+               <LinkComprar>
+            </td>
+           </tr>          
+       
+</table>
+</sub>
+<!-- subprodutos -->
+
+ 
+      <table>
+        <tr><td nowrap nowrap></td></tr>
+        <tr><td valign=top class=EstDescrProd><br><Descricao></td></tr>
+        <tr><td align=right class=EstMaisInfo nowrap><DescrURL></td></tr>
+      </table> 
+</ProdDet>
+
+
+<ProdBottom>
+
+</FormProdMult>
+
+<!-- Scroll to Top -->
+<script type="text/javascript">
+ if(document.getElementById("idLoadPointFC1")){
+  document.write("<div id='DivBottomRight' style='position:absolute;bottom: 20px;'>");
+  document.write("<table  width='100%' border='0' cellspacing='0' cellpadding='0'><tr><td align='right'><a href='#' onclick='window.scrollTo(0,0); return false' alt='Voltar para o topo da página'><img src='<BaseLoja>images/IcArrowFooter.png' border='0' width='44' height='44' alt='Voltar para o topo da página' /></a></td></tr></table>");
+  document.write("</div>");
+  JSFX_FloatDiv("DivBottomRight", 0,-50).floatIt();
+}
+</script>
+</ProdBottom>
