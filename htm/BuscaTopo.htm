@@ -1,0 +1,22 @@
+<!--[if IE]><style type="text/css">.InputTextBuscaTopo{ background: transparent; border:none; font-size:20px;font-family:verdana; color:#6ed8fa; padding-top:7px }
+</style><![endif]-->
+<div class="Busca">
+
+
+<table width="100%" border="0">
+    <form name="buscaprod" method="GET" id="autocomplete-form" action="listaProdutos.asp?IDLoja=<IDLoja>" onSubmit="return VerTexto(this)">
+        <tr>
+            <td class="FundoBusca">
+                <input type="text" class="InputTextBuscaTopo" value="<SearchText>" name="Texto" id=TextoBusca maxlength="38" value="Buscar por" onclick="if(this.value=='Buscar por')this.value=''" size=15 style="width:480px; height:43px; ">
+                <input type="hidden" name="IDLoja" value="<IDLojaNum>"><input type="hidden" name="Y" value="<Y>"><input type="hidden" name="Digitada" value="True">
+            </td>
+            <td colspan="2" align="left">
+                <input type="image" name="ok" src="<BaseLoja>images/BotOkBusca.png" width="43" height="43" />
+            </td>
+        </tr>
+    </form>
+</table>
+
+</div>
+
+
