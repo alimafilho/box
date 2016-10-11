@@ -1,0 +1,15 @@
+<script>
+ if(<IDFormaPagamento>==9){
+   sBcash="<iframe src=lixo.htm style='width:900px;height:1000px;'></iframe>";
+   var oChkEnd=F$.GetID("idChkEndFC");
+   if(oChkEnd){
+     var oNewElementbCash=document.createElement("div");
+     oNewElementbCash.setAttribute("id","DivShowBcash");
+     oDivShowBcash=oChkEnd.parentNode.insertBefore(oNewElementbCash,oChkEnd);
+     oDivShowBcash.innerHTML=sBcash;
+     var oChkBottom=F$.GetID("idChkBottomFC");
+     if(oChkBottom)setTimeout("FuncChkIntoView(oChkBottom);",100);
+     F$.FooterHeight+=1000;
+   }
+ }
+ </script>
