@@ -1,0 +1,52 @@
+<!--[if IE]><style type="text/css">.FundoBarraEsq{margin:0; }.TitCatBottom{margin-top:0; }</style><![endif]-->
+
+
+<style>
+  .CatOpened{ }
+  .CatClosed{ }  
+
+  .EstListCat ul{margin:0px;padding:0px; font-family: 'CallunaSansRegular-webfont', Arial, sans-serif;}
+	
+  .EstListCat a {padding-left: 10px;}	
+  .EstListCat li{padding:3px;}
+
+  .EstListCat .wid{display:none }
+  .PathCatActive{font-weight:bold}
+  
+  .EstListCat .ImgClosed{width:20px;cursor:pointer;background:url(/lojas/000<IDLojaNum>/images/PathClosed.png) no-repeat bottom left}
+  .EstListCat .ImgOpened{width:20px;cursor:pointer;background:url(/lojas/000<IDLojaNum>/images/PathOpened.png) no-repeat bottom left}
+
+  .EstListCat li .PathCat0{font-size:14pt; margin-left:-3px;}
+  .EstListCat li .PathCat1{font-size:10pt;margin-left:-3px;}
+  .EstListCat li .PathCat2{font-size:7pt;margin-left:-3px;}
+	/*CATEGORIA*/
+  .EstListCat ul .PathCat0 a{background:url(/lojas/000<IDLojaNum>/images/BtnCatA.png) no-repeat;color:#FFF; text-decoration:none;width:100%;display: inline-block;line-height:40px;text-shadow:0 2px 1px #000;}
+  .EstListCat ul .PathCat0 a:visited {color:#FFF;background-color:#cccccc;}
+  .EstListCat ul .PathCat0 a:active {color:#0963AA;background-color:#cccccc;}
+  .EstListCat ul .PathCat0 a:hover {background:url(/lojas/000<IDLojaNum>/images/BtnCatHover.png) no-repeat;color:#c4df7e;}
+	/*SUBCATEGORIA*/
+  .EstListCat ul .PathCat1 a{background:url(/lojas/000<IDLojaNum>/images/BtnCatSubA.png) no-repeat;color:#FFF;text-decoration:none;width:100%;display:inline-block;line-height:30px;text-shadow:0 2px 1px #000;}
+  .EstListCat ul .PathCat1 a:visited {color:#FFF;background-color:#d0d0d0;}
+  .EstListCat ul .PathCat1 a:active {color:#0963AA;background-color:#d0d0d0;}
+  .EstListCat ul .PathCat1 a:hover {background:url(/lojas/000<IDLojaNum>/images/BtnCatSubHover.png) no-repeat;color:#46e1ff;}
+	/*SUBCATEGORIA2*/
+  .EstListCat ul .PathCat2 a{background:url(/lojas/000<IDLojaNum>/images/BtnCatSub2A.png) no-repeat;color:#FFF;text-decoration:none;width:100%;display:inline-block;line-height:30px;text-shadow:0 2px 1px #000;}
+  .EstListCat ul .PathCat2 a:visited {color:#FFF;background-color:#d0d0d0;}
+  .EstListCat ul .PathCat2 a:active {color:#0963AA;background-color:#d0d0d0;}
+  .EstListCat ul .PathCat2 a:hover {background:url(/lojas/000<IDLojaNum>/images/BtnCatSub2Hover.png) no-repeat;color:#ffcc33;}
+</style>
+<div id="IdDivColares" style="display:none">Funcionou</div>
+
+
+
+<div class="TitCat"><p class="TxtTitCat">Categorias</p></div>
+
+<div class="FundoBarraEsq">
+     <ListCat out="1">
+</div>
+
+<div class="TitCatBottom"></div>
+
+<div><a href='javascript:MostraChatP()'><img src="<BaseLoja>images/BotChatOnline.png" alt="Atendimento online" width="201" height="117" border="0"  style="margin:4px"/></a><div>
+
+<div id="menuFiltros"></div>
