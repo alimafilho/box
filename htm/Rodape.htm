@@ -1,0 +1,190 @@
+<script>
+
+IcPagtoVE=document.getElementById("idTxtPagto16FC"); //VISA Electron
+if(IcPagtoVE){
+  TxtPagtoVE=document.getElementById("idTxtPagto16FC");
+  if(TxtPagtoVE){
+    TxtPagtoVE.innerHTML="&nbsp;<label for='Pagto16'>&nbsp;VISA Electron (Débito à vista)&nbsp;</label>";
+  }
+}
+
+
+
+jQuery.noConflict();
+jQuery(document).ready(function(){
+
+// Quando o botão for clicado
+		// Percorre todas as linhas da tabela
+		jQuery('#idTabHistOrderFC tr td').each(function(){
+		// Adiciona uma com o número corrente
+
+		var sConteudo = jQuery(this).text();
+
+		if(sConteudo == "Verificado pela recepção"){jQuery(this).html("<b style='color:#06436c'>Verificado pela recepção...XPTO</b>");}
+		else if(sConteudo == "Recuperado"){jQuery(this).html("<b style='color:#eb2235'>Recuperado...XPTO</b>");}
+		else if(sConteudo == "Processado pela expedição"){jQuery(this).html("<b style='color:#efef5e'>Processado pela expedição...XPTO</b>");}
+		else if(sConteudo == "Pedido remetido"){jQuery(this).html("<b style='color:#f2af56'>Pedido remetido...XPTO</b>");}
+		else if(sConteudo == "Liberado para envio"){jQuery(this).html("<b style='color:#7f7fff'>Liberado para envio...XPTO</b>");}
+		else if(sConteudo == "Cancelado"){jQuery(this).html("<b style='color:#ba95d3'>Cancelado...XPTO</b>");}		
+		else if(sConteudo == "Aguardando depósito bancário"){jQuery(this).html("<b style='color:#3399ff'>Aguardando depósito bancário...XPTO</b>");}
+        else if(sConteudo == "Aguardando aprovação do cartão"){jQuery(this).html("<b style='color:#3399ff'>Aguardando aprovação do cartão...XPTO</b>");}			
+
+		});
+	});
+
+</script>
+
+
+
+<script>
+if(IDCategoriaAtualFC == 4441)document.getElementById('IdDivColares').style.display='block';
+</script>
+
+<!-- Histórico da loja -->
+<script>
+var x=ConectXMLPageHistory();
+document.onload=ExibeHistoricoNaveg(x);
+</script>
+
+<div style="background-color:#FFF">&nbsp;</div>
+
+<div class="ShadowBottom"></div>
+<div class="TopFooter" align="center">
+    <div align="center" class="FooterLinks">
+        <ul class="FooterMenuAll" >
+            <li style="float:left; margin:5	0 0 10"><a href="<a href=home.asp?IDLoja=<IDLoja>">Home</a></li>
+            <li style="float:left; margin:5	0 0 10"><a href="/prod,idloja,<IDLojaNum>,promocao,true">Promoções</a></li>
+            <li style="float:left; margin:5	0 0 10"><a href="/prod,idloja,<IDLojaNum>,lancamento,true">Lançamentos</a></li>
+            <li style="float:left; margin:5	0 0 10"><a href="/news,idloja,<IDLojaNum>">Notícias</a></li>
+            <li style="float:left; margin:5	0 0 10"><a href="ajuda.asp?IDLoja=<IDLojaNum>">Ajuda</a></li>
+            <li style="float:left; margin:5	0 0 10"><a href="AddProduto.asp?IDLoja=<IDLoja>">Seu Pedido</a></li> 
+        </ul> 
+    </div>
+    
+  <style>/*.FooterPagamento img{float:left}*/</style> 
+ 
+    <div class="Footer">
+        <div class="FooterThawte"><iframe scrolling=no frameborder=0 name=iframeThawte ID=iframeThawte src=https://www.rumo.com.br/sistema/SeloThawte.htm style=width:80;height:80></iframe></div>
+        <div class="FooterPagamento">
+            <img src="<BaseLoja>images/IcAmex.png" alt="American Express"/>	
+            <img src="<BaseLoja>images/IcMaster.png" alt="MasterCard"/>
+            <img src="<BaseLoja>images/IcVisaEl.png" alt="Visa Electron"/>
+            <img src="<BaseLoja>images/IcVisa.png" alt="Visa"/>
+        </div>
+        <div class="PoweredBy"><a href="http://www.fastcommerce.com.br/home.asp?IDLoja=1&origem=tecfc&utm_source=<NomeLoja>&utm_medium=Selo&utm_campaign=Tecnologia+FastCommerce" target="_blank"><img src="<Baseloja>images/BotDesignHospedagem.gif" alt="FastCommerce Tecnologia líder de mercado em comércio eletrônico"  width="76" height="53"/></a></div>	    
+	</div>
+</div>
+
+<div class="FooterLinks" >
+    <ul class="FooterMenuAll">
+        <li style="float:left; margin:5	0 0 10">© <NomeLoja> - Todos os direitos reservados</li>
+        <li style="float:left; margin:-5 0 0 10"><ShareFacebook> <ShareTwitter> <ShareOrkut></li>
+
+    </ul> 
+</div>
+<!-- Passos de compra -->
+<style type="text/css">
+.EstPassoCompraDiv{display:none}
+.EstContinuarComprando{display:none;}
+</style>
+
+<script type="text/javascript">
+//Exibe botões dos passos de compra personalizados | LojaLib.js
+ExibePassosCompra();
+</script>
+
+
+
+
+
+<style>.EstContinuarComprando{display:none;}</style>
+<script>
+
+//Personalização dos botões no carrinho
+
+var sPag=document.location.href.toUpperCase();
+if(sPag.indexOf("ADDPRODUTO.ASP")>=0 || sPag.indexOf("ADDMULT")>=0){
+  try{
+    var table=document.getElementById('TabItens');
+
+
+
+    var row=table.insertRow(-1);
+    var cell=row.insertCell(-1);
+    cell.colSpan=4;
+    var sCel2="<table width='100%'><tr>";
+          sCel2+="<td width='33%' align='left'><a href='home.asp?IDLoja=<IDLoja>'><img src='<baseLoja>images/BotContComprando.png' title='Continuar comprando' border='0'></a></td>";
+          sCel2+="<td width='34%' align='center'><a href='#R' onclick='document.Lista.submit()'><img src='<BaseLoja>images/BotRecalcular.png' title='Recalcular' border='0'></a></td>";
+          sCel2+="<td width='33%' align='right'><a href='#C' onclick='ComprarImg()'><img src='<BaseLoja>images/BotComprar.png' title='Comprar' border='0'></a></td>";
+        sCel2+="</tr></table>";
+    cell.innerHTML=sCel2;
+
+  }catch(e){}
+  try{document.getElementById("TabBotoes").style.display='none';}catch(e){}
+}
+
+function ComprarImg(){
+  document.getElementsByName("Comprar")[0].click();
+}
+
+MostraDadosCesta();
+</script>
+
+
+<!-- 123 -->
+<script>
+
+
+//if(FC$.Page=="Products"){
+
+function exbiBannerCategorias(){
+var idBanner = new Array();
+//Lista das categorias e respctivos IDs
+idBanner[0] = ["ARTDECO", "55226"];
+idBanner[1] = ["AZZARO", "55227"];
+//idBanner[2] = ["BAN", "55228"];
+idBanner[2] = ["BAN", "4447"];
+idBanner[3] = ["BVLGARI", "55235"];
+idBanner[4] = ["CACHARREL", "55236"];
+idBanner[5] = ["CALVIN-KLEIN", "55237"];
+idBanner[6] = ["CAROLINA-HERRERA", "55238"];
+idBanner[7] = ["CHANEL", "55896"];
+idBanner[8] = ["DIOR", "55242"];
+idBanner[9] = ["DOLCEGABBANA", "55244"];
+idBanner[10] = ["FERRARI", "55249"];
+idBanner[11] = ["GIORGIOARMANI", "55253"];
+idBanner[12] = ["GIVENCHY", "55255"];
+idBanner[13] = ["HUGO-BOSS", "55259"];
+idBanner[14] = ["JEANPAULGALTIER", "55261"];
+idBanner[15] = ["KENZO", "55264"];
+idBanner[16] = ["LANCOME", "55268"];
+idBanner[17] = ["LOLITALEMPICKA", "55270"];
+idBanner[18] = ["MARCJACOBS", "55271"];
+idBanner[19] = ["MONTBLANC", "55275"];
+idBanner[20] = ["NARCISORODRIGUES", "55277"];
+idBanner[21] = ["OPI", "55280"];
+idBanner[22] = ["PACORABANNE", "55281"];
+idBanner[23] = ["RALPHLAUREN", "55284"];
+idBanner[24] = ["REVLON", "55285"];
+idBanner[25] = ["SALLYHANSEN", "55287"];
+idBanner[26] = ["SCHWARZKOPF", "55289"];
+idBanner[27] = ["SENSCIENCE", "55290"];
+idBanner[28] = ["SINFULCOLORS", "55292"];
+idBanner[29] = ["THIERRY-MUGLER", "55294"];
+idBanner[30] = ["TIGIBEDHEAD", "55295"];
+idBanner[31] = ["VERSACE", "55299"];
+
+
+
+  for(i=0; i< idBanner.length; i++){
+   if(idBanner[i][1] == IDCategoriaAtualFC){
+     document.getElementById('boxBanner').style.display='block';   
+     document.getElementById('banner'+i).style.display='block';
+     break;
+   }
+  }
+
+}
+
+if(FC$.Page=="Products")exbiBannerCategorias();
+</script>
