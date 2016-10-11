@@ -1,0 +1,894 @@
+// FastCommerce - EstiloProdutoMult.htm (modelo personalizado para compra de múltiplos produtos)
+
+<ProdTop>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <!-- <script language="JavaScript" src="/jquery-1.8.2.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<!-- Filtro de Busca Lista Produtos -->
+
+<style type="text/css">
+
+/* formatação Filtro de busca */
+#idDivPagProd, #idDivOrder, #idDivPath, #idDivSearch {margin-top:15px;width:97%;border-style:solid;border-width:1px;border-color:#ffffff;}
+#idUlPathSearchFC {margin-left:10px;font-size:8pt;}
+#idUlPathSearchFC li{font-size:8pt;}
+#idUlPathSearchFC #idPathSearchTextInputFC{width:95px;background-color:#fcfcfc;font-size:9pt;}
+#idLinkAdvancedSearchFC {text-decoration:none;font-size:8pt;}
+#idLinkAdvancedSearchFC:hover{text-decoration:underline;color:#333333;}
+.EstTitQts {font-family:tahoma;font-size:8pt;background-color:#eaeaea;padding:5px;}
+.EstDivQts{height:100%;border-style:solid;border-width:1px;border-color:#d0d0d0;}
+#idSelPathCatQtFC, #idSelAdic1QtFC, #idSelAdic2QtFC, #idSelAdic3QtFC {width:100%;}
+#idUlPathCatQtFC li,#idUlAdic1QtFC li,#idUlAdic2QtFC li,#idUlAdic3QtFC li{list-style-type:none;font-size:8pt;margin:5px 10px 3px 5px}
+.EstTabFiltersExt{background-color:#ebebeb;height:28px;font-family:tahoma;font-size:8pt;}
+.EstTabFiltersInt{background-color:#f7f7f7;}
+</style>
+
+<style>
+*{ padding:0; margin:0 auto; }
+.TabFiltrosBusca {border:1px solid #ccc; background-color:#ffffff;margin:0; padding:0}
+.TitFiltros{color: #3b3b3b; float:left; position:relative; padding: 3px 5px; width:179px !important; font-family: arial, verdana; font-size: 14px; border-bottom:1px solid #ccc; background-color:#E8E8E8}
+.ListaFiltros{float:left;  position: relative; width:100%;}
+.ListaFiltros a{font-size: 8pt; color:#0e6cb0;}
+
+.BotRemoveFiltros{ text-align:center; display: block; border:1px solid #ccc; background-color:#eee; color:#00f; font-weight: bold; padding:5px 10px; margin: 5px 10px;}
+#idUlPathSearchFC {margin:10px;}
+#idPathSearchTextInputFC {margin-top: 10px; border:1px solid #ccc; height:20px;}
+</style>
+<!--[if IE]>
+  <style type="text/css"></style>
+<![endif]-->
+
+  <script>
+    $(function() {
+
+    var sDe= 0; var sAte = 20000; var sPag = document.location.href.toUpperCase();
+  
+   if(sPag.indexOf("PRECODE") >= 0 || sPag.indexOf("PRECOATE") >=0){
+      
+     if(sPag.indexOf("/PROD,") >=0){
+         var sPagArray = sPag.split(',');
+         for (i=0; i <= sPagArray.length-1 ; i++){
+           if(sPagArray[i] == "PRECODE")sDe = parseInt(sPagArray[i+1]);
+           if(sPagArray[i] == "PRECOATE")sAte = parseInt(sPagArray[i+1]); 
+         }
+     }else{
+               var sPagArray = sPag.split('&'); 
+               for (i=0; i <= sPagArray.length-1 ; i++){
+                  if(sPagArray[i].indexOf("PRECODE") >= 0){sDe = parseInt(sPagArray[i].slice(sPagArray[i].indexOf("=")+1, sPagArray[i].length)); }
+                  if(sPagArray[i].indexOf("PRECOATE") >= 0){sAte = parseInt(sPagArray[i].slice(sPagArray[i].indexOf("=")+1, sPagArray[i].length)); }
+
+
+               }
+          }
+   }
+   
+        //slider range Price
+        $( "#slider-range" ).slider({
+            range: true,
+            min: 0,
+            max: 20000,
+            values: [ sDe, sAte ],
+            slide: function( event, ui ) {
+               // $( "#amount" ).val( "R$ " + ui.values[ 0 ] + "  -  R$ " + ui.values[ 1 ] );
+                $( "#amount1" ).val( ui.values[ 0 ] );
+                $( "#amount2" ).val( ui.values[ 1 ] );
+            }
+        });
+        //$( "#amount" ).val( "R$ " + $( "#slider-range" ).slider( "values", 0 ) + "  -  R$ " + $( "#slider-range" ).slider( "values", 1 ) );
+        $( "#amount1" ).val(  $( "#slider-range" ).slider( "values", 0 ) ); $( "#amount2" ).val($( "#slider-range" ).slider( "values", 1 ) );
+
+
+
+    });
+    </script>  
+
+<script>
+//Formata o valor
+function PriceToString(str, de, espaco, para){
+    var pos = str.indexOf(de);
+    while (pos > -1){
+		str = str.replace(de, para);
+		pos = str.indexOf(de);
+	}
+    var pos = str.indexOf(espaco);
+    while (pos > -1){
+		str = str.replace(espaco, para);
+		pos = str.indexOf(espaco);
+	}
+      var sDe = str.slice(0, str.indexOf("-"));
+      var sAte = str.slice(str.indexOf("-")+1, str.length);
+      novoFiltro(sDe,sAte);
+}
+
+$(function(){
+    $('.BotLimpar').click(function(){
+    PriceToString("0-20000",'R$ ',' ','');
+    });
+
+    $('#slider-range a').mouseup(function(){
+        //var id = $(this).attr('class');
+        //alert(id);
+    //PriceToString(document.getElementById('amount').value,'R$ ',' ','');
+    novoFiltro(document.getElementById('amount1').value,document.getElementById('amount2').value);
+    });
+});
+</script>
+
+
+<div id="FiltrosBusca" style="display:none">
+    <table id="FiltroResultado" class="TabFiltrosBusca" style="position:relative;display:none;" width="180" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="font-size:14px; padding:5px; text-align:center; background-color:#ddd;border-bottom:1px solid #ccc;">Filtrando por</td>
+      </tr>
+      <tr>
+        <td><div class="ListaFiltros"><ListPathSearch></div></td>
+      </tr>
+      <tr>
+        <td><a class="BotRemoveFiltros" href="/prod,idloja,<IDLoja>">remover filtros</a></td>
+      </tr>
+    </table><br />
+
+    <table class="TabFiltrosBusca" style="position: relative;display:table;" width="180" cellpadding="0" cellspacing="0">
+     <tr>
+       <td style="font-size:14px; padding:5px; text-align:center; background-color:#ddd;border-bottom:1px solid #ccc;">Filtrar por</td>
+     </tr>
+     <tr>
+       <td>
+         <div id="FiltroCat" style="display:none; position:relative; width:100%;">
+           <div class="TitFiltros"><LegendaCats></div><div class="ListaFiltros"><ListPathCatQt></div>
+         </div>
+         <div id="FiltroAdic1" style="display:none; position:relative; width:100%;">
+           <div class="TitFiltros"><NomeAdicional1></div><div class="ListaFiltros"><ListAdic1Qt></div>
+         </div>
+         <div id="FiltroAdic2" style="display:none; position:relative; width:100%;">
+           <div class="TitFiltros"><NomeAdicional2></div><div class="ListaFiltros"><ListAdic2Qt></div>
+         </div>
+         <div id="FiltroAdic3" style="display:none; position:relative; width:100%;">
+           <div class="TitFiltros"><NomeAdicional3></div><div class="ListaFiltros"><ListAdic3Qt></div>
+         </div>
+         <div id="" style="display:table;position:relative; width:180px;">
+            <div style="position:relative;">
+              <label for="amount" class="TitFiltros" style="font-family: arial; font-size:13px;">Faixa de preço</label>
+              <span style=" position:relative; margin: 5px 0; width:180px; height:25px;"><label> &nbsp; De R$&nbsp;</label><input type="text" id="amount1" style="font-family: arial; border: 0; width:50px; color: #f6931f;" /><label> Até R$&nbsp;</label><input type="text" id="amount2" style="font-family: arial; border:0; width:50px; color: #f6931f;" /></span><!--<input class="BotLimpar" type="button" style="font-size:10px;width:35px;margin: 8px 0px;border: 1px solid #ccc ; color: #f6931f;" value="limpar" /> -->
+            </div>
+            <div id="slider-range" style="width: 165px; margin:10px 5px 10px 5px;"></div>
+         </div> 
+      </td> 
+     </tr>
+    </table>
+</div>
+
+<script>
+
+function CriaFiltros(){
+  var oFiltroBusca = document.getElementById('idUlPathSearchFC');
+  var oFiltroCat = document.getElementById('idUlPathCatQtFC');
+  var oFiltroAdic1 = document.getElementById('idUlAdic1QtFC');
+  var oFiltroAdic2 = document.getElementById('idUlAdic2QtFC');
+  var oFiltroAdic3 = document.getElementById('idUlAdic3QtFC');
+  
+  if(oFiltroBusca)document.getElementById('FiltroResultado').style.display="block";
+  if(oFiltroCat)document.getElementById('FiltroCat').style.display="block";
+  if(oFiltroAdic1)document.getElementById('FiltroAdic1').style.display="block";
+  if(oFiltroAdic2)document.getElementById('FiltroAdic2').style.display="block";
+  if(oFiltroAdic3)document.getElementById('FiltroAdic3').style.display="block";
+
+  var sTabFiltros = document.getElementById('FiltrosBusca').innerHTML;
+  if(oFiltroCat || oFiltroAdic1 || filtroAdic2 || oFiltroAdic3)document.getElementById('menuFiltros').innerHTML = sTabFiltros;
+ } 
+</script>
+
+<script>
+CriaFiltros();
+var iQtdProds=<QtProd>;
+</script>
+
+<script>
+ 
+
+
+function novoFiltro(de,ate){
+  var sPag = document.location.href.toUpperCase();
+  var sDe = de;
+  var sAte =  ate;
+
+   //verifica se é URL amigável
+   if(sPag.indexOf("/PROD,") >=0){
+     var sPagArray = sPag.split(',');
+       var sURL = "";
+       var j=0; 
+       for (i=0; i <= sPagArray.length-1 ; i++){   
+                 
+                if(sPagArray[i] == "IDLOJA"){j = i;}
+                if(i == j+1){
+                  var sNovo = "";
+                    if(sPag.indexOf("AVANCADA") == -1 && sURL.indexOf("AVANCADA") == -1){ var sNovo = "AVANCADA,TRUE,";}
+                    if(sPag.indexOf("PRECODE") == -1 && sURL.indexOf("PRECODE") == -1){var sNovo = sNovo+"PRECODE,"+sDe+",";}
+                    if(sPag.indexOf("PRECOATE") == -1 && sURL.indexOf("PRECOATE") == -1){var sNovo = sNovo+"PRECOATE,"+sAte+",";}                 
+                    sURL = sURL+sPagArray[i]+","+sNovo;
+                }else{
+                       if(sPagArray[i] == "PRECODE"){sPagArray[i+1] = sDe; var sURL = sURL+"PRECODE,";}
+                       else if(sPagArray[i] == "PRECOATE"){sPagArray[i+1] = sAte; var sURL = sURL+"PRECOATE,";} else{var sURL = sURL+sPagArray[i]+",";}
+                     }
+       }
+      sURL = sURL.slice(0,sURL.length-1); sURL = sURL.toLowerCase();
+      document.location.href=sURL;
+    }else{
+     
+     var sNovaURL = false;
+     var sPagArray = sPag.split('&');
+     var sURL = "";
+        for (i=0; i <= sPagArray.length-1 ; i++){ 
+            
+            if(sPag.indexOf("AVANCADA") == -1 && sPagArray[i].indexOf("IDLOJA") >= 0){sURL = sURL + "Avancada=True&" }
+
+            if(sPag.indexOf("PRECODE") >= 0 || sPag.indexOf("PRECOATE") >= 0){                
+                if(sPagArray[i].indexOf("PRECODE") >= 0){sPagArray[i] = "PRECODE="+sDe; sNovaURL = true}
+                if(sPagArray[i].indexOf("PRECOATE") >= 0){sPagArray[i] = "PRECOATE="+sAte; sNovaURL = true}       
+            }
+              sURL = sURL + sPagArray[i] +"&";
+            }
+        sURL = sURL.slice(0,sURL.length-1); sURL = sURL.toLowerCase(); 
+        if(sNovaURL){document.location.href=sURL;}else{
+         document.location.href=sURL+"&precoDe="+sDe+"&precoAte="+sAte;}
+
+    }
+}
+</script>
+
+
+
+<div id="idPagProdTop"></div>
+<!-- Fim Filtro de Busca Lista Produtos -->
+<!-- Tabela de parcelamento -->
+<script>
+//marcar 1 unidade em todos os prosutos 
+function marcaTodos(acao){
+
+  if(acao == true){
+   $("input[type='checkbox']").attr('checked', true);
+   $("input[type='checkbox']").siblings("input:text").attr('value', 1); 
+  }
+  if(acao == false){
+   $("input[type='checkbox']").attr('checked', false);
+   $("input[type='checkbox']").siblings("input:text").attr('value', 0); 
+  }
+}
+
+function MostraParcelasPopup(PrecoProd,MaxParcelas){
+
+  var ComSem,EstiloLinha;
+ 
+  var sParc = "";
+  if(PrecoProd==0||MaxParcelas==1||Juros.length==0)return;
+  if(MaxParcelas==0||MaxParcelas>Juros.length)MaxParcelas=Juros.length;
+  sParc += "<br><table align='center' cellspacing='3' cellpadding='3' width='400'>";
+  sParc += "<tr bgcolor='#DCDCDC'><td colspan='3' height='22' class='TitTabParc' align='center'><b>Opções de parcelamento</td></tr>";
+  sParc += "<tr bgcolor='#FFFFFF'><td class='TitTabParc'>Número de parcelas</td><td align='right' class='TitTabParc'>Valor de cada parcela</td><td align='right' class='TitTabParc'>Valor total parcelado</td></tr>";
+
+  for(var i=0;i<MaxParcelas;i++){
+    if(Juros[i]>0)ComSem="com juros"; else ComSem="<font color='#DD0000'>sem juros</font>";
+    if((i%2)==0)EstiloLinha='EstParcPar'; else EstiloLinha='EstParcImpar';
+    sParc +="<tr class='"+EstiloLinha+"'><td class='"+EstiloLinha+"'>"+(i+1)+"x "+ComSem+"</td><td class='"+EstiloLinha+"' align='right'>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,i+1))+"</td><td class='"+EstiloLinha+"' align='right'>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,i+1)*(i+1))+"</td></tr>";
+  }
+  sParc +="</table><br>";
+  
+iAlturaPag = $(document).height();
+  $('<div>').addClass('FundoParc')
+            .css("height", iAlturaPag)                           
+            .prependTo('body');
+  $('#ShowbuttonParc').after("<div class='TabParc'><span style='cursor: pointer; display:block;float:right; margin:8px 10px; font-weight:bold;' onclick='FechaJanelaParc($(document).scrollTop());'>Fechar [X]</span>"+sParc+"<br /></div>");   
+
+// cetralizar a janela pop-up Tabela de Parcelamento 
+var topMargin= Math.round($(window).height()/2)-Math.round($('.TabParc').height()/2);
+var leftMargin= Math.round($(window).width()/2)-Math.round($('.TabParc').width()/2);
+$(".TabParc").css({'top': topMargin, 'left': leftMargin });
+}
+
+function FechaJanelaParc(iPos){
+    $('.TabParc').remove();  
+    $('.FundoParc').remove();
+    $('html, body').animate({scrollTop: iPos}, 0);
+}
+</script>
+<!-- Fim Tabela de parcelamento -->
+
+<script>
+
+// Verifica se tem estoque
+function TemProduto(iEstoque, idProd){
+
+  if(iEstoque == 0){
+    var str = "<p style='text-align:center; display:block; padding:5px; border:1px solid #900; background-color: #d20216;'>Produto esgotado</p>";
+    document.getElementById('botItem'+idProd).innerHTML = str;
+  }
+//verifica se a loja utiliza o recruso de ocultar carrinho em produto com subproduto 
+  oDisponivel =document.getElementById('idQTIncMult_'+idProd);
+
+  if(oDisponivel){
+    var str =""; 
+    str +="<table border='0' width='90'  height='18' cellpadding='0' cellspacing='0' style='display:table;'><tr><td>";
+    str +=  "<img id='idQTAdd_"+idProd+"' src='<BaseLoja>images/add.png' style='float:left; cursor:pointer; border:0; padding:0; margin:2px;' />";
+    str +=  "<img id='idQTRem_"+idProd+"' src='<BaseLoja>images/remove.png' style='float:left; cursor:pointer; border:0; padding:0; margin:2px;' />";
+    str +="</td></tr></table>";
+    
+    str +="<table border='0' width='130'  height='18' cellpadding='0' cellspacing='0' style='display:table;margin-top:3px;'><tr><td>";
+    str +=   "<img id='idQTAll_"+idProd+"' src='<BaseLoja>images/addAll.png' style='float:left;cursor:pointer;border:0; padding:0; margin:2px;' />";
+    str +=   "<img id='idQTRemover_"+idProd+"' src='<BaseLoja>images/removeAll.png' style='float:left;cursor:pointer;border:0; padding:0; margin:2px;' />";
+    str +="</td></tr></table>";
+
+  document.getElementById('botItem'+idProd).innerHTML = str;
+  }
+}
+
+</script>
+
+<FormProdMult>
+
+<!-- função para verificar campos digitados -->
+<script type="text/javascript">
+
+function verifcaCampos(IDSubProduto,EstoqueSubProd){        
+
+  iEstDigitado = $('#idQTIncMult_'+IDSubProduto).val(); //obtém o estoque digitado pelo cliente
+  iEstAtual= EstoqueSubProd; //obtém o estoque do produto através da tag especial < Estoque > 
+  iEstDigitado = parseInt(iEstDigitado.replace(/^0+/,'' ));//converter para valor inteiro -- remove 0 a esquerda
+ 
+  //compara a quantidade de estoque
+  if (iEstDigitado > 0){ //só entra na validação se estoque digitado for maior do que 0
+
+    if(iEstDigitado > iEstAtual){
+        //$('#idQTIncMult_<IDProduto>').attr('value', 0 ); //retorna 0 no campo digitado
+        $('#idQTIncMult_'+IDSubProduto).attr('value', EstoqueSubProd );  //retorna o estoque atual já preenchido no campo digitado
+        $('#idQTIncMult_'+IDSubProduto).css({ backgroundColor: 'red'});  //adiciona o fundo vermelho
+        $('#boxMsg'+IDSubProduto).html("");  // Remover mensagem de estoque        
+        $('<span>') // Cria um elemento span para mensagem
+          .css({ backgroundColor: 'red', padding: '5px', margin: "2px", display: 'block', color: 'white' }) // Definindo estilos
+          .addClass('mensagemEstoque')
+          .append("Estoque solicitado não disponível! Estoque atual é "+EstoqueSubProd)
+          .appendTo('#boxMsg'+IDSubProduto);  // Adiciona ele ao elemento div com o id '#boxMsg'+IDSubProduto
+    }
+    else{
+        //alert("estoqueProd="+ iEstAtual +"  ||  estoqueInfo="+ iEstDigitado +"     tem estoque!!");
+        $('#idQTIncMult_'+IDSubProduto).attr('value', iEstDigitado ); // remove 0 a esquerda
+        $('#idQTIncMult_'+IDSubProduto).css({ backgroundColor: 'white'});
+         $('#boxMsg'+IDSubProduto).html("");        
+        }
+    }else{ $('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque*/ }
+
+}
+
+//botão adiciona item
+function AdiconaRemoveItem(IDSubProduto, EstoqueSubProd, acao){
+
+EstDigitado = $('#idQTIncMult_'+IDSubProduto).val();
+
+  if(acao == true){
+      EstDigitado = parseInt(EstDigitado)+1;
+      
+      if(EstDigitado <= EstoqueSubProd){
+      $('#idQTIncMult_'+IDSubProduto).attr('value', EstDigitado );
+      
+      }
+      else{
+            sConteudo = $('#boxMsg'+IDSubProduto).html(); // vevifica se a span já foi inserida
+            if(sConteudo == ""){
+            $('<span>') // Cria um elemento span
+            .css({ backgroundColor: 'red', padding: '5px', margin: "2px", display: 'block', color: 'white'}) // Definindo estilos
+            .addClass('mensagemEstoque')
+            .append("Estoque solicitado não disponível! Estoque atual é "+EstoqueSubProd)
+            .appendTo('#boxMsg'+IDSubProduto) // Adiciona ele ao elemento div com o id '#boxMsg'+IDSubProduto
+                 }
+            }
+  }
+  
+  //remove item
+  if(acao == false){  
+    EstDigitado = parseInt(EstDigitado)-1;  
+    if(EstDigitado <= EstoqueSubProd && EstDigitado > -1){
+        $('#idQTIncMult_'+IDSubProduto).attr('value', EstDigitado );  
+     }
+    if(EstDigitado == 0){$('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque */ }  
+  }
+  
+}   
+
+  function addRemoverTodosItem(IDSubProduto, Estoque, acao){
+  
+    EstDigitado = $('#idQTIncMult_'+IDSubProduto).val();  
+    EstDigitado = parseInt(EstDigitado)-1;
+  
+    if(acao == "add"){
+        $('#idQTIncMult_'+IDSubProduto).attr('value', Estoque );  
+     }
+    if(acao == "remover"){
+        $('#idQTIncMult_'+IDSubProduto).attr('value', 0 );
+        $('#boxMsg'+IDSubProduto).html(""); /* remove mensagem estoque */
+     }
+   }
+</script>
+
+
+</ProdTop>
+
+<!-- Lista de Produtos -->
+<ProdLista>
+<script>
+var TemSubProduto = false;
+</script>
+<!-- verifica se tem subproduto -->
+<sub>
+<script>
+var TemSubProduto = true;
+</script>
+</sub>
+<!-- FIM verifica se tem subproduto -->
+<div id="ProdListaDiv" style="">
+<table border="0" cellspacing="5" cellpadding="3" style="border:1px solid #fff;border-top:1px solid #ccc;" width="99%" onMouseOver="this.style.border='1px solid #ccc';" onMouseOut="this.style.border='1px solid #fff';this.style.borderTop='1px solid #ccc';">
+  <tr>
+    <td width="100"><ImagemProd></td>
+    <td width="5">&nbsp;</td>
+    <td width="250"><a href="/prod,IDLoja,<IDLoja>,IDProduto,<IDProduto>,<NomeProdUA>" class="EstNomeProd"><NomeProd></a></td>
+    <td width="250" align="right" class="EstPrecoProd" nowrap><PrecoSimples>
+      <script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script>
+      <script>MostraEconomia(<PrecoNum>,<PrecoOri>);</script>
+    </td>
+    <td align="right"><Linkdet></td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <script>
+      if(TemSubProduto == true){
+        document.write('<table cellspacing="5" cellpadding="5" bgcolor="#DCDCDC" width="100%"><tr><td class="EstNomeProd">Este produto possui mais opções <a href="/prod,IDLoja,<IDLoja>,IDProduto,<IDProduto>,<NomeProdUA>">clique aqui</a> para ver.</td></tr></table>');}
+      </script>
+    </td>
+  </tr>
+</table>
+</div>
+</ProdLista>
+<!-- Fim Lista de Produtos -->
+
+
+<ProdDet>
+<!-- verifica estoque, botões add/ remove item -->
+<script>
+
+var QntdadeSub = 0;
+ $(document).ready(function(){
+    var sIDProduto = <IDProduto>;
+    var sEstoque = <Estoque>;
+    
+    $("#idQTIncMult_"+sIDProduto).change(function(){   
+    	 verifcaCampos(sIDProduto, sEstoque); });
+
+    //botões
+    	$("#idQTAdd_<IDProduto>").click(function(){   
+    		 AdiconaRemoveItem(sIDProduto, sEstoque,true); });
+    	
+    	$("#idQTRem_<IDProduto>").click(function(){   
+    		AdiconaRemoveItem(sIDProduto, sEstoque,false);});
+    	
+    	$("#idQTAll_"+sIDProduto).click(function(){   
+    		 addRemoverTodosItem(sIDProduto, sEstoque,'add');});
+    	
+    	$("#idQTRemover_"+sIDProduto).click(function(){   
+    		 addRemoverTodosItem(sIDProduto, sEstoque,'remover');});
+  });
+</script>
+<!-- Fim verifica estoque, botões add/ remove item -->
+<style>
+</style>
+
+<!--
+<div class="demo">
+
+<div id="slider"></div>
+
+    <div class='rsize'></div>
+</div>
+
+<script>
+$("#slider").slider({
+  min: 0,
+  max: 24, // max is 24
+  step: 2,
+  slide: function(event, ui) {
+    var s = ui.value;
+    switch(ui.value) {
+       case 20:
+         s = '16W';
+         break;
+       case 22:
+         s = '18W';
+         break;
+       case 24:
+         s = '12W';
+         break;
+    }
+    $(".rsize").text(s);
+  }
+})
+</script>
+-->
+
+<table id="ProdDetDiv" width="100%" border="0" cellpadding="3" cellspacing="3" align="center">
+ <tr>
+  <td colspan="2">
+        <!-- Exibe o caminho de categorias do produto --> 
+        <span class="EstRefProdDet"><PathCat></span><hr style="border:1px solid #ccc;width:100%"><br />
+  </td>
+ </tr>
+ <tr>
+  <td width="50%" align="left" valign="top" class="ImgProdDet">   
+
+        <!-- começo :: zoom com várias imagens -->     
+        <script>
+        var imgDetAll = "<ImagemProdDet>";
+        var imgAmpAll = "<ImagemProdAmp>";
+        var novoArray = imgDetAll.split(',');
+        var novoArrayAmp = imgAmpAll.split(',');
+        var CountImgDet=novoArray.length;
+        var CountImgAmp=novoArrayAmp.length;
+        
+        if (imgDetAll=="" || imgAmpAll==""){
+          document.write("");
+        }
+        else{
+          if (CountImgDet==CountImgAmp){
+            var FC_MaxImages=CountImgDet-1;
+            MostraZoomImgFC();
+          }
+          else{
+            var FC_MaxImages=0;
+            MostraZoomImgFC();
+          }
+        }
+        
+        function MostraZoomImgFC(){
+          for (var i=0;i<=FC_MaxImages;i++)
+          {
+            if(i==0)
+            {
+              imgDetMini=novoArray[i];
+              imgAmpMini=novoArrayAmp[i];
+              document.write("<a href="+imgAmpMini+" title=<NomeProd> class=MagicZoom id=Zoomer><img src="+ imgDetMini +"></a><br>");
+              document.write("<a href="+imgAmpMini+"  rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class='EstImgFCMini'></a>");
+            }
+            else{
+                  imgDetMini="<BaseLoja>prod/"+novoArray[i];
+                  imgAmpMini="<BaseLoja>prod/"+novoArrayAmp[i];
+                  document.write("<a href="+imgAmpMini+" rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class='EstImgFCMini'></a>");
+            }
+          }
+        }
+        </script>
+        <br /><br />
+        <!-- fim :: zoom com várias imagens -->
+
+      <!-- Link Redes Sociais-->
+      <table border="0" cellpadding="3" cellspacing="0" style="border:1px solid #D4D4D4;width:270px;display:table;">
+        <tr><td colspan="6" align="center" style="background-color:#f1f1f1;">Compartilhe</td></tr>
+        <tr>    
+          <td><ShareFacebook></td>
+          <td><ShareTwitter></td>
+          <td><ShareOrkut></td>
+          <td width="60" align="center"><GooglePlusOne size="small"></td>
+          <td width="60" align="center"><Facebook type="like" layout="button_count"></td>
+          <td width="60" align="center"><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></td>
+        </tr>
+      </table>
+      <!-- Link Redes Sociais FIM-->
+      <!-- Link Indique  e Avaliação do Produto-->
+      <table width="270" border="0" cellpadding="0" cellspacing="0" style="margin:10px 0; display:table;">
+           <tr>
+              <td><script>MostraBotIndique(<IDProduto>)</script></td>
+              <td><script>MostraBotAval(<IDProduto>);</script></td>
+           </tr>
+      </table>
+      <!-- Fim Link Indique  e Avaliação do Produto-->
+
+  </td>
+  <td valign="top">     
+   
+    <!-- informações do produto nome, categoria, preço, descritores... -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td class="EstNomeProd"><NomeProd></td>
+      </tr>
+      <tr>
+        <td class="EstRefProdDet">REF.: <CodProd> - <LegendaCat> <NomeCat> <br /><br /></td>
+      </tr>
+      <tr>
+        <td class="EstPrecoProd"  height="60">
+          <!-- Preço do produto -->
+          <span style="display:block"> 
+             <script>
+                var sPreco= "<PrecoSimples>";
+                if(sPreco.indexOf("Consulte-nos") >=0){document.write(sPreco);}
+                else{document.write("Preço à vista &nbsp;"+sPreco);}
+             </script>
+             <!-- mostra valor parcelado --> 
+             <script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script>  
+             <!-- Fim mostra valor parcelado -->
+          </span><br />
+          <!-- FIM Preço do produto -->
+          <span class="EstParcProd"><AvisoDisp><br />
+            <span style="font-size:10pt;color:#00f;"><script>MostraEconomia(<PrecoNum>,<PrecoOri>);</script></span>
+          </span><br />
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <style>
+           .BotDestProd, .BotLancProd{margin:0 5px 0 0!important;}
+           .EstBotDescricaoProd{text-decoration: none; font-size:14px; font-family:arial; padding:5px; margin-bottom:5px; display: block;letter-spacing:1px; background-color:#93d267;border:1px solid #ccc;text-align:center;}
+	   .EstBotTabParcProd{text-decoration: none; font-size:14px; font-family:arial; padding:5px; margin-bottom:5px; display: block;letter-spacing:1px; background-color:#a4e7f7;border:1px solid #ccc;text-align:center;}
+           </style>
+           
+           <!-- link ver Detalhes -- link ver Tabela de Parcelamento -->
+           <a href='#' class="EstBotDescricaoProd" onclick="$('html,body').animate({scrollTop: $('#verDescricao').offset().top-20}, 2000);">clique aqui para ver a descrição do produto</a>
+              
+           <script>
+            if(<PrecoNum> > 0)document.write('<a href="#" id="ShowbuttonParc" class="EstBotTabParcProd" onclick="MostraParcelasPopup(<PrecoNum>,<MaxParcelasProdNum>);">clique aqui para ver as opções de parcelamento</a>');
+           </script>     
+           <!-- Fim link ver Detalhes -- link ver Tabela de Parcelamento -->
+        </td>
+      </tr>
+      <tr>
+        <td>       
+          <!--Botões Destque e Lançamento -->
+          <span style="display:block; padding:0px">
+           <Destaque><Lancamento>
+          </span> 
+          <!-- Fim Botões Destque e Lançamento -->
+        </td>
+      </tr> 
+      <tr>
+        <td>
+          <!-- tabela para exibir campo quantidade e descritores do produto--> 
+          <table>
+            <tr>
+               <td>&nbsp;</td> 
+               <td>               
+                 <!-- Adicionais do Produto -->
+                 <div class="LinhaAdicional"> 
+                    <span class="EstAdicional"><Cor></span>
+                    <span class="EstAdicional"><Adicional1></span>
+                    <span class="EstAdicional"><Adicional2></span>
+                    <span class="EstAdicional"><Adicional3></span>
+                    <span class="EstAdicional"><AdicionalD1></span>
+                    <span class="EstAdicional"><AdicionalD2></span>
+                    <span class="EstAdicional"><AdicionalD3></span>
+                    <span class="EstAdicional"><Peso></span>
+                  <div>
+                 <!-- Fim Adicionais do Produto -->
+               </td>
+            </tr>
+            <tr>
+              <td><IncMult></td>
+              <td>
+                  <div id="botItem<IDProduto>" style=""></div>
+                  <script>TemProduto(<Estoque>,<IDProduto>);</script>
+  	        <div id="boxMsg<IDProduto>" style="position: relative; display:block; font-family:arial; font-size:12px;"></div>
+              </td>
+             </tr>       
+          </table>
+          <!-- Fim tabela para exibir campo quantidade e descritores do produto-->        
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+         
+    </table>
+    <!-- Fim informações do produto nome, categoria, preço, descritores... -->
+  
+    </td> 
+  </tr>
+  <tr>
+    <td>   
+    <!--redes sociais-->
+    &nbsp;
+    </td>
+    <td>
+    <!--simulção de frete-->
+       &nbsp;        
+    </td>
+  </tr>
+  <tr>
+   <td>
+     <table width="300" border="0" cellpadding="0" cellspacing="0" align="left">
+           <tr>
+              <td>
+               <!-- Simulção de Frete -->
+               <div id="ShowCEP<IDProduto>"></div>
+               <script>ShowCEP(<IDProduto>);</script> 
+               <!-- Fim Simulção de Frete -->
+              </td>
+           </tr>
+     </table>
+
+   </td>
+   <td align="center">&nbsp;<div id="BoxBotComprar" class="BoxBotComprar"><LinkComprar></div></td>
+  </tr>
+  <tr>
+    <td id="SubProd" colspan="2">
+          <style type="text/css">
+          .LinhaAdicional .EstAdicional{ display:block; margin:2px 4px; /*float:left;*/}
+          .LinhaAdicional{ margin: 10px 0px 10px 0px; display:table;}
+          .QTIncMult{border:1px solid #ccc;}
+          </style>
+                   
+          <sub> 
+          <!-- verifica estoque, botões add/ remove item -->
+          <script>
+          var QntdadeSub = QntdadeSub+1;
+
+          $(document).ready(function(){
+          
+            var sIDProduto = <IDProduto>;
+            var sEstoque = <Estoque>;
+            
+          
+          $("#idQTIncMult_"+sIDProduto).focus(function(){
+              if($(this).val() == 0){$(this).attr('value', '');$(this).select();}
+          });
+          $("#idQTIncMult_"+sIDProduto).blur(function(){
+              if($(this).val() == ""){$(this).attr('value', 0); $("#idCBIncMult_"+sIDProduto).attr('checked', false);}
+          });
+          
+            $("#idQTIncMult_<IDProduto>").change(function(){   
+            verifcaCampos(sIDProduto, sEstoque); });
+            //botões adiciona e remove item
+            $("#idQTAdd_<IDProduto>").click(function(){   
+            AdiconaRemoveItem(sIDProduto, sEstoque,true); });
+            
+            $("#idQTRem_<IDProduto>").click(function(){   
+            AdiconaRemoveItem(sIDProduto, sEstoque,false);});
+            
+            $("#idQTAll_<IDProduto>").click(function(){   
+            addRemoverTodosItem(sIDProduto, sEstoque,'add');});
+            
+            $("#idQTRemover_<IDProduto>").click(function(){   
+            addRemoverTodosItem(sIDProduto, sEstoque,'remover');});
+          
+          
+          });
+          </script>
+          <!-- Fim verifica estoque, botões add/ remove item -->
+          <style>
+          #ProdDetDiv .ImgSub .EstImgFC{width:100px; margin:1px; border:none;}
+          </style>
+          
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="<EstiloSubProduto>" name="TabDadosSubProduto<IDProduto>">
+          <tr>
+            <td width="15%">
+                 <span class="ImgSub">
+                    <ImagemProd>
+                 </span> 
+            </td>
+            <td width="35%">
+              <div class="LinhaAdicional"> 
+                <span class="EstAdicional"><span class="AdicNome">Cod.:</span><span class="AdicItem"><CodProd></span></span>
+                <span class="EstAdicional"><Cor></span>
+                <span class="EstAdicional"><Adicional1></span>
+                <span class="EstAdicional"><Adicional2></span>
+                <span class="EstAdicional"><Adicional3></span>
+                <span class="EstAdicional"><AdicionalD1></span>
+                <span class="EstAdicional"><AdicionalD2></span>
+                <span class="EstAdicional"><AdicionalD3></span>
+                <span class="EstAdicional"><Peso></span>
+              <div>
+            </td>
+            <td width="10%"><IncMult></td>
+            <td width="17%">
+                   <div id="botItem<IDProduto>" style=""></div>
+                        <script>TemProduto(<Estoque>,<IDProduto>);</script>
+                   <div id="boxMsg<IDProduto>" style="position: relative; display:block; font-family:arial; font-size:12px;"></div>
+                </td>
+            <td width="23%" align="center" style="">
+               <span class="EstPrecoProdSub"><PrecoSimples> <span class="EstParc"><script>MostraMaxParcela(<PrecoNum>,<MaxParcelasProdNum>);</script><br><span style="font-size:8pt;color:#00f;"><script>MostraEconomia(<PrecoNum>,<PrecoOri>);</script></span></span></span>
+               <AvisoDisp>
+            </td>
+           </tr>
+          </table>
+          
+          </sub>
+          <br />           
+          <span id="EstMarcarTodos" style="display:none; border:1px solid #ccc; padding:5px 20px; margin: 10px 0; text-align:center"><a href="javascript:marcaTodos(true);">Marcar todos</a> | <a href="javascript:marcaTodos(false);">Remover todos</a></span>
+          <script> if(QntdadeSub > 1)document.getElementById('EstMarcarTodos').style.display="block";</script>
+          <br />
+                    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <style type="text/css">
+        .EstTitDescricao{background-color:#E8E8E8;}
+        .EstTitDescricao span{font-size:15px; display:block; margin:5px 5px}
+        .EstDescricao{font-size:13px; font-family: arial; letter-spacing:1px;padding:10px 5px;}
+        #botTopo{font-size:14px; font-family:arial;letter-spacing:1px;padding:5px; display: block; background-color:#E8E8E8;border:1px solid #ccc;text-align:center;}
+        </style>
+        <br />
+        <table id="verDescricao" width="100%" cellpadding="0" cellspacing="0" style="display:table; margin:10px 0; padding:5px; border:1px solid #ccc;">
+          <tr>
+            <td class="EstTitDescricao"><span>Descrição do produto</span></td>
+          </tr>
+          <tr>
+             <td class="EstDescricao"><descricao><DescrHTM></td>
+                <tr>
+             <td><DescrURL><br /><br /></td>
+          </tr>
+          <tr>
+             <td><a href='#' id="botTopo" style="text-decoration:none;" onclick="$('html, body').animate({scrollTop:0}, 'slow');">clique voltar para o topo na página</a></td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+
+
+<script>
+//Botão comprar 
+$(document).ready(function(){
+
+  var posicaoReal = $('#verDescricao').offset(); 
+  var subProd_fixo = $('#SubProd').offset(); 
+  
+   //Chama função que exibe o botão Comprar
+    exibeBotComprar();
+
+   //Açao ao rolar o scroll da página
+    $(window).scroll(function () {
+
+      //Fundo para a tabela de parcelamento
+       // $(".FundoParc").css("top", $(this).scrollTop()+"px"); 
+      $(".TabParc").animate({"top": $(this).scrollTop()+Math.round($(this).height()/2)+"px"},{duration:500,queue:false});
+      //botão flutuante
+     $(".BotComprarFloat").animate({
+         top: $(this).scrollTop()+Math.round($(this).height()/2)-Math.round($(".BotCartProd").height()/2)+"px"
+         },{duration:500,queue:false}
+        );//botão flutuante fim
+
+     
+
+//inseri o botão comprar de acordo com a posição da barra de rolagem
+       if( $(this).scrollTop() < subProd_fixo.top || $(this).scrollTop() > posicaoReal.top-50 ) {
+              $('.BotComprarFloat').fadeOut(300);  
+       }
+       else{ 
+          $('.BotComprarFloat').fadeIn(300);
+           }
+    });
+
+});
+</script>
+
+
+
+</ProdDet>
+
+<ProdBottom>
+
+
+<script>
+
+function exibeBotComprar(){
+var oBot = "<LinkComprar>";
+  
+  //exibir botão comprar para produto com subproduto
+  $('#BoxBotComprar').html(oBot);
+  $('<div>').addClass('BotComprarFloat')
+                .prependTo('body');
+           $('.BotComprarFloat').attr( "id", "BoxBotComprar"); 
+           $('.BotComprarFloat').html(oBot);
+           $('.BotComprarFloat').hide();
+
+}
+</script>
+
+
+</formprodmult>
+</ProdBottom>
+
