@@ -1,0 +1,51 @@
+<IncludeHTML src="inc/includeHTML1.htm" param1="100">
+
+<!-- Style Imagens BarraTopo -->
+<style type="text/css">
+.BarToplFC{display:block;}
+</style>
+<script language=JavaScript src=<BaseLoja>htm/JurosParcelas.js></script>
+<script>
+<!--[if IE]><style type="text/css">.ShadowBottom{margin-top:0px}</style><![endif]-->
+
+
+
+function MostraMaxParcela(PrecoProd,MaxParcelas){
+  var ComSem;
+  if(PrecoProd==0||MaxParcelas==1||Juros.length==0)return;
+  if(MaxParcelas==0||MaxParcelas>Juros.length)MaxParcelas=Juros.length;
+  if(Juros[MaxParcelas-1]>0)ComSem=""; else ComSem="<font color=#999> sem juros</font>";
+  document.write("<span class=EstMostraEconomia>ou <b>"+MaxParcelas+"x</b>"+ComSem+" de <b>"+FormatPrecoReais(CalculaParcelaJurosCompostos(PrecoProd,MaxParcelas))+"</b></span>");
+}
+</script>
+
+<div class="Top">&nbsp;
+
+	<p class="TexTitHome" align="center">Lançamentos</p>
+    
+    <div class="Boxs">
+        <div style="float:left"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>  
+    </div>
+
+    <div class="Boxs">
+        <div style="float:left"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div> 
+    </div>
+	
+    <p class="TexTitHome" align="center">Destaque</p>    
+    
+    <div class="Boxs">
+        <div style="float:left"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div>
+        <div style="float:left; padding-left:15px;"><prod out="p1" em="rand"></div> 
+    </div>
+</div>
+
+    <div class="ShadowBottom1"></div>
+
