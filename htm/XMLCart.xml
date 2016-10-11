@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+<html>
+   <head>
+      <title>XML</title>
+      <style>
+      .EstCestaTxt{font-size:8pt;font-family:tahoma,verdana}
+      .EstTabTopoXML {padding:2px 2px 2px 2px;background:#E9E9E9;color:#333333;font-size:9pt;font-family:verdana;font-weight:bold;border-style:solid;border-width:1px;border-color:#000}
+      </style>
+   </head>
+   <body>
+
+	<table width="100%" border="0" class="EstTabTopoXML" style="border:1px solid #f00;">
+	  <tr>
+	    <td class="EstCestaTxt" align="right">
+			<table width="300" border="0">
+			  <tr>
+			    <td class="EstCestaTxt" align="right" width="50%">
+			      <b>Carrinho: </b> <xsl:value-of select="cart/TotalQty"/> itens (<xsl:value-of select="cart/TotalWeight"/><xsl:text disable-output-escaping="yes"> </xsl:text><xsl:value-of select="cart/WeightUnit"/>)
+			    </td>
+			    <td class="EstCestaTxt" align="right">
+			      <b>Sub-total: </b><xsl:text disable-output-escaping="yes"> </xsl:text><xsl:value-of select="cart/currency"/><xsl:text disable-output-escaping="yes"> </xsl:text><xsl:value-of select="cart/subtotal"/>
+			    </td>
+			  </tr>
+			</table>
+	    </td>
+	  </tr>
+	</table>
+
+   </body>
+</html>
+</xsl:template>
+</xsl:stylesheet>
