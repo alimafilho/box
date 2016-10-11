@@ -1,0 +1,93 @@
+<p> aqui</p>
+
+
+<div id="boxBanner" style="width:990px; position: relative; display: none">
+	<div id="banner0" style="display:none"><Banner 1></div>
+	<div id="banner1" style="display:none"><Banner 2></div>
+	<div id="banner2" style="display:none"><Banner 3></div>
+	<div id="banner3" style="display:none"><Banner 4></div>
+	<div id="banner4" style="display:none"><Banner 5></div>
+	<div id="banner5" style="display:none"><Banner 6></div>
+	<div id="banner6" style="display:none"><Banner 7></div>
+	<div id="banner7" style="display:none"><Banner 8></div>
+	<div id="banner8" style="display:none"><Banner 9></div>
+	<div id="banner9" style="display:none"><Banner 10></div>
+	<div id="banner10" style="display:none"><Banner 11></div>
+	<div id="banner11" style="display:none"><Banner 12></div>
+	<div id="banner12" style="display:none"><Banner 13></div>
+	<div id="banner13" style="display:none"><Banner 14></div>
+	<div id="banner14" style="display:none"><Banner 15></div>
+	<div id="banner15" style="display:none"><Banner 16></div>
+	<div id="banner16" style="display:none"><Banner 17></div>
+	<div id="banner17" style="display:none"><Banner 18></div>
+	<div id="banner18" style="display:none"><Banner 19></div>
+	<div id="banner19" style="display:none"><Banner 20></div>
+	<div id="banner20" style="display:none"><Banner 21></div>
+	<div id="banner21" style="display:none"><Banner 22></div>
+	<div id="banner22" style="display:none"><Banner 23></div>
+	<div id="banner23" style="display:none"><Banner 24></div>
+	<div id="banner24" style="display:none"><Banner 25></div>
+	<div id="banner25" style="display:none"><Banner 26></div>
+	<div id="banner26" style="display:none"><Banner 27></div>
+	<div id="banner27" style="display:none"><Banner 28></div>
+	<div id="banner28" style="display:none"><Banner 29></div>
+	<div id="banner29" style="display:none"><Banner 30></div>
+	<div id="banner30" style="display:none"><Banner 31></div>
+</div>
+
+<script>
+
+
+//if(FC$.Page=="Products"){
+
+function exbiBannerCategorias(){
+var idBanner = new Array();
+//Lista das categorias e respctivos IDs
+idBanner[0] = ["ARTDECO", "55226"];
+idBanner[1] = ["AZZARO", "55227"];
+//idBanner[2] = ["BAN", "55228"];
+idBanner[2] = ["BAN", "4445"];
+idBanner[3] = ["BVLGARI", "55235"];
+idBanner[4] = ["CACHARREL", "55236"];
+idBanner[5] = ["CALVIN-KLEIN", "55237"];
+idBanner[6] = ["CAROLINA-HERRERA", "55238"];
+idBanner[7] = ["CHANEL", "55896"];
+idBanner[8] = ["DIOR", "55242"];
+idBanner[9] = ["DOLCEGABBANA", "55244"];
+idBanner[10] = ["FERRARI", "55249"];
+idBanner[11] = ["GIORGIOARMANI", "55253"];
+idBanner[12] = ["GIVENCHY", "55255"];
+idBanner[13] = ["HUGO-BOSS", "55259"];
+idBanner[14] = ["JEANPAULGALTIER", "55261"];
+idBanner[15] = ["KENZO", "55264"];
+idBanner[16] = ["LANCOME", "55268"];
+idBanner[17] = ["LOLITALEMPICKA", "55270"];
+idBanner[18] = ["MARCJACOBS", "55271"];
+idBanner[19] = ["MONTBLANC", "55275"];
+idBanner[20] = ["NARCISORODRIGUES", "55277"];
+idBanner[21] = ["OPI", "55280"];
+idBanner[22] = ["PACORABANNE", "55281"];
+idBanner[23] = ["RALPHLAUREN", "55284"];
+idBanner[24] = ["REVLON", "55285"];
+idBanner[25] = ["SALLYHANSEN", "55287"];
+idBanner[26] = ["SCHWARZKOPF", "55289"];
+idBanner[27] = ["SENSCIENCE", "55290"];
+idBanner[28] = ["SINFULCOLORS", "55292"];
+idBanner[29] = ["THIERRY-MUGLER", "55294"];
+idBanner[30] = ["TIGIBEDHEAD", "55295"];
+idBanner[31] = ["VERSACE", "55299"];
+
+
+
+  for(i=0; i< idBanner.length; i++){
+   if(idBanner[i][1] == IDCategoriaAtualFC){
+     document.getElementById('boxBanner').style.display='block';   
+     document.getElementById('banner'+i).style.display='block';
+     break;
+   }
+  }
+
+}
+
+if(FC$.Page=="Products")exbiBannerCategorias();
+</script>
