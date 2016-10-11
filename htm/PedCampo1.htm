@@ -1,0 +1,64 @@
+<span id="um"></span>
+<script>
+
+var sHiddenCampo1='P2PedCampo1';
+var aTextCampo1=new Array('8h às 10h','10h às 12h','12h às 14h','14h às 16h','16h às 18h');
+var aValueCampo1=new Array('8h às 10h','10h às 12h','12h às 14h','14h às 16h','16h às 18h');
+var sErrMsgCampo1='Selecione horário(s) preferido(s) de entrega.';
+
+
+function criaCkd(){
+var str = "<input type=hidden name="+sHiddenCampo1+" id="+sHiddenCampo1+" onpropertychange=PedAlteraCampo1(this.value)>";
+
+for(var i=0;i<aTextCampo1.length;i++){
+  str +="<input type=checkbox name=x"+sHiddenCampo1+" id=x"+sHiddenCampo1+"_"+i+" value='"+aValueCampo1[i]+"' onclick=AtualizaHiddenCampo1()><label for=x"+sHiddenCampo1+"_"+i+">"+aTextCampo1[i]+"</label><br>";
+  }
+  document.getElementById('um').innerHTML = str;
+}
+</script>
+<script>criaCkd();</script>
+<script>
+
+function PedAlteraCampo1FF(){PedAlteraCampo1(document.Form1.P2PedCampo1.value);}
+
+if(navigator.appName.indexOf("Explorer")<0)document.getElementById(sHiddenCampo1).addEventListener('DOMAttrModified',PedAlteraCampo1FF,false);
+
+PedAlteraCampo1("<ValorCampo>");
+
+function PedAlteraCampo1(sValor){
+  var aValores=sValor.split(", ");
+  var iSelect=0,Achei,iArray;
+  while(iSelect<5){
+    Achei=false;
+    iArray=0;
+    while(iArray<aValores.length && !Achei){
+      if(document.Form1.xP2PedCampo1[iSelect].value==aValores[iArray]){document.Form1.xP2PedCampo1[iSelect].checked=true;Achei=true;}
+      else iArray++;
+    }
+    if(!Achei)document.Form1.xP2PedCampo1[iSelect].checked=false;
+    iSelect++;
+  }
+}
+
+function AtualizaHiddenCampo1(){
+  var iSelect=0,sHiddenValor="";
+  while(iSelect<document.Form1.xP2PedCampo1.length){
+    if(document.Form1.xP2PedCampo1[iSelect].checked){
+      if(sHiddenValor!="")sHiddenValor+=", ";
+      sHiddenValor+=document.Form1.xP2PedCampo1[iSelect].value;
+    }
+    iSelect++;
+  }
+  document.Form1.P2PedCampo1.value=sHiddenValor;
+}
+
+function PedValidaCampo1(){
+  var iSelect=0,Achei=false;
+  while(iSelect<document.Form1.xP2PedCampo1.length && !Achei){
+    if(document.Form1.xP2PedCampo1[iSelect].checked)Achei=true;
+    else iSelect++;
+  }
+  if(!Achei){alert(sErrMsgCampo1);document.Form1.xP2PedCampo1[0].focus();return false;}
+  else return true;
+}
+</script>
