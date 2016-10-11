@@ -1,0 +1,87 @@
+<script>
+if(FC$.Page=="Payment"){
+  IcPagtoVE=document.getElementById("idTxtPagto16FC"); //VISA Electron
+  if(IcPagtoVE){
+    TxtPagtoVE=document.getElementById("idTxtPagto16FC");
+    if(TxtPagtoVE){
+      TxtPagtoVE.innerHTML="&nbsp;<label for='Pagto16'>&nbsp;VISA Electron (Débito à vista)&nbsp;</label>";
+    }
+  }
+}  
+</script>
+<script>
+
+if(FC$.Page=="Register" && FC$.Step=="Registration" && FC$.NextStep=="Home"){  CliVerificaCampo1();}
+
+function FuncChkRegisterEnd(){
+  if(F$.Step==1){
+   CliVerificaCampo1();
+  }
+}
+
+
+
+var sPagAtual=document.location.href.toUpperCase();
+
+if(sPagAtual.indexOf("CADASTRO")>=0){
+  ExibeBotaoConfirmaPedido(); //Colocar conteúdo no topo da página de confirmar o pedido
+}
+</script>
+
+
+<link href="<BaseLoja>htm/LojaEstilos.css" rel="stylesheet" type="text/css">
+<script>
+ExibePassosCompra(); //Exibe botões dos passos de compra personalizados
+if(sPag.indexOf("CADASTRO")>=0){
+  ExibeBotaoConfirmaPedido(); //Colocar conteúdo no topo da página de confirmar o pedido
+  oTabRegisterFC=document.getElementById("idTabRegisterFC");
+  if(oTabRegisterFC)oTabRegisterFC.cellPadding="5x";
+}
+</script>
+
+<style>
+.FundoBarraEsquerda{background-image: url(/images/shim.gif);width:1px;}
+.FundoBarraDireita {background-image: url(/images/shim.gif)}
+.LinkRodape{color:666666;text-decoration:none;}
+</style>
+<!--[if IE]><style>.FundoBarraEsquerda{width:40px}</style><![endif]-->
+
+<div class="ShadowBottom"></div>
+<table bgcolor=#ffffff align="center" cellspacing="3" cellpadding="4">
+  <tr><br><br>
+    <td><iframe scrolling=no frameborder=0 name=iframeThawte ID=iframeThawte src=https://www.rumo.com.br/sistema/SeloThawte.htm style=width:80;height:80></iframe></td>
+  </tr>
+</table>
+
+<table width="800" align="center" cellspacing=0 cellpadding=0>
+  <tr height=30>
+    <td width="60%" align="center">
+      <table align="center" height="50">
+        <tr>
+        <td align=center><a href="home.asp?IDLoja=<IDLojanum>" class="LinkRodape">Home</a></td>
+        <td align=center>|</td>
+        <td align=center><a href="addProduto.asp?IDLoja=<IDLojaNum>" class="LinkRodape">Seu pedido</a></td>
+        <td align=center>|</td>
+        <td align=center><a href="faleconosco.asp?IDLoja=<IDLojaNum>" class="LinkRodape">Contato</a></td>
+        <td align=center>|</td>
+        <td align=center><a href="ajuda.asp?IDLoja=<IDLojaNum>" class="LinkRodape">Ajuda</a></td>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br>
+<table width="100%">
+	<tr>
+		<td align="center">
+			Copyright © <b><a href="home.asp?idloja=<idloja>" class="PedLinkRodape"><NomeLoja></a></b> - Todos os direitos reservados<br>
+		</td>
+	</tr>
+</table>
+
+<script>
+var sPagAtual=document.location.href.toUpperCase();
+var sCaminhoImages="<BaseLoja>images/"
+//Personalização das imagens das formas de pagamento
+//if(sPag.indexOf("FORMAPAGTO.ASP")>=0)AlteraImgsFormaPagto();
+</script>
