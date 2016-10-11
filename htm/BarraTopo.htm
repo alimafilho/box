@@ -1,0 +1,144 @@
+<script>
+var IDLojaAS='<IDLoja>'
+var CaminhoProdAS='<BaseLoja>prod/' 
+var g1='5'; //Quantidade de itens do grupo g1(Termos), Padrão 5, Máximo 9, 0 Não exibe
+var g2='3'; //Quantidade de itens do grupo g2(Páginas), Padrão 3, Máximo 9, 0 Não exibe
+var g3='5'; //Quantidade de itens do grupo g3(Produtos), Padrão 5, Máximo 9, 0 Não exibe
+var g4='3'; //Quantidade de itens do grupo g4(Notícias), Padrão 3, Máximo 9, 0 Não exibe
+</script>
+<link href="<baseloja>htm/jquery_ui.css" rel="stylesheet"><script language="JavaScript" src="/jquery-1.8.2.min.js"></script>
+<script language="JavaScript" src="/jquery-ui-1.9.2.custom.min.js"></script>
+<!--<script type="text/javascript" src="<BaseLoja>htm/autosuggest.js"></script>--><!--[if IE]>
+ <style type="text/css">.ui-autocomplete-category{margin-top: -2px}</style>
+<![endif]--><script type="text/javascript">
+IDLoja='<IDLoja>'; //Obtém IDLoja para montar links
+IDLojaNum='<IDLojaNum>';
+sCaminhoImages='<BaseLoja>images/'
+</script>
+<script src="<BaseLoja>htm/LojaLib.js"></script>
+<script language="JavaScript" src="../sistema/magiczoom.js"></script>
+<script type="text/javascript" src="../sistema/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="<BaseLoja>htm/nivo_slider.js"></script>
+<link href="<baseloja>htm/nivo.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<baseloja>htm/nivo_slider.css" media="screen" rel="stylesheet" type="text/css"><script type="text/javascript">
+         jQuery.noConflict();
+	jQuery(window).load(function() {
+		jQuery('#slider').nivoSlider();
+	});
+</script>
+<!--[if IE]><style type="text/css">ul.MenuBarraTopo li a {height:50px;}ul.MenuBarraTopo li a:hover {height:50px;}.ShadowBottom{margin-top:0px}#slider {margin:0 0 0 0;}</style><![endif]--><!-- Inicio Cálculo do CEP --><script>
+var IDProdShipping="";
+
+function GetShippingValues(IDZip,IDProd){
+  sCEP=document.getElementById("idZip"+ IDZip).value;
+  if(sCEP==""){alert("Informe o CEP");return;}
+  if(IDProdShipping!="")var sParamProd="&idproduto="+ IDProdShipping;
+  else if(IDProd)var sParamProd="&idproduto="+ IDProd;
+  else var sParamProd="";
+  AjaxExecFC("/XMLShippingCEP.asp","IDLoja=<IDLojaNum>&cep="+ sCEP + sParamProd,false,processXMLCEP,IDZip);
+}
+
+function processXMLCEP(obj,IDProd){
+  var iErr=ReadXMLNode(obj,"err");if(iErr==null)return;
+  if(iErr!="0"){
+    alert(ReadXMLNode(obj,"msg"));
+    return;
+  }
+  oShippingValues=document.getElementById("idShippingValues"+IDProd);
+  oShippingValues.innerHTML="<a href=#na onclick=document.getElementById('idShippingValues"+ IDProd +"').style.display='none'><img src='<BaseLoja>images/icon_fechar.png'width='15' height='15' style='margin-left:180px'/></a>";
+  var UseCart=ReadXMLNode(obj,"UseCart");
+  if(UseCart=="False"){
+    var ProdName=ReadXMLNode(obj,"ProdName");
+    var ProdRef=ReadXMLNode(obj,"ProdRef");
+    
+  }
+  var iOpt=ReadXMLNode(obj,"OptQt");
+  for(var i=1;i<=iOpt;i++){
+    var OptName=ReadXMLNode(obj,"Opt"+ i +"Name");
+    var OptValue=ReadXMLNode(obj,"Opt"+ i +"Value");
+    var OptImage=ReadXMLNode(obj,"Opt"+ i +"Image");
+    var OptObs=ReadXMLNode(obj,"Opt"+ i +"Obs");
+    if(OptImage==null)oShippingValues.innerHTML+="<div class='CepName'>"+ OptName +"&nbsp-&nbsp"+ OptValue +":</div>";
+    else oShippingValues.innerHTML+="<img src='"+ OptImage +"'>";
+    oShippingValues.innerHTML+="<div class='CepObsVal'>Obs:&nbsp"+ OptObs +"</div>";
+  }
+  oShippingValues.style.display="block";
+}
+</script>
+<!-- Fim Cálculo do CEP -->
+<div class="Content">
+<div class="Visitante"><script>
+            if(""!="<NomeCliente>")
+            {document.write("  <span class=TextoPequeno>Olá, <b><NomeCliente></b>!&nbsp;<span class=TextoPequeno>Se não for você, <a href='cadastro.asp?IDLoja=<IDLoja>&logoff=1' target='_top' class='TextoPequeno'>clique</a>.</span>")}
+            else
+            {document.write("  <span class=TextoPequeno>Olá, <b>visitante</b>!  <a href='cadastro.asp?IDLoja=<IDLoja>' target='_top' class='TextoPequeno'>Clique</a> para fazer o seu cadastro.")}
+        </script>
+</div>
+<!--    
+<table width="290"  height="50" border="0" >
+	<tr>
+		<td class="StyProdLinkCart" align="left"><a href="AddProduto.asp?IDLoja=<IDLoja>"><b>Cesta: <span class="StyProdShoppingCartPrice" id="QtdItensCesta"></span></b></a>
+		</td>
+		<td class="StyProdLinkCart" align="left"><a href="AddProduto.asp?IDLoja=<IDLoja>"><b>Subtotal: <span id="ValorItensCesta"></span></a></b>
+		</td>
+	</tr>
+</table>
+-->
+
+<table border="0" height="50" width="290">
+	<tbody>
+		<tr>
+			<td align="left">
+			<div id="idCartTopBoxFC1"></div>
+			<script src="<BaseLoja>htm/CartAjaxFC.js"></script>
+</td>
+			<script type="text/javascript" type="text/javascript">
+        //window.cartAjaxFC.init('div', { locationID: 'idCartTopBoxFC1'});
+        window.cartAjaxFC.init('div', { locationID: 'idCartTopBoxFC1', contentID: 'idCartContentFC1',  itemAlign:'left', imgProd: true, txtBotCart: 'Fechar pedido FC'});
+      </script>
+</tr>
+	</tbody>
+</table>
+
+<div class="Content">
+<ul class="MenuBarraTopo">
+	<li>
+	<a href="home.asp?IDLoja=<IDLoja>" rel="index">Home</a>
+	</li>
+	<li class="MenuSep"></li>
+	<li>
+	<a href="/prod,idloja,<IDLojaNum>,promocao,true" rel="alternate">Promoções</a>
+	</li>
+	<li class="MenuSep"></li>
+	<li>
+	<a href="/prod,idloja,<IDLojaNum>,lancamento,true" rel="alternate">Lançamentos</a>
+	</li>
+	<li class="MenuSep"></li>
+	<li>
+	<a href="AddProduto.asp?IDLoja=<IDLoja>" rel="alternate">Seu Pedido</a>
+	</li>
+	<li class="MenuSep"></li>
+	<li>
+	<a href="Ajuda.asp?IDLoja=<IDLoja>" rel="alternate">Ajuda</a>
+	</li>
+	<li class="MenuSep"></li>
+	<li>
+	<a href="faleconosco.asp?IDLoja=<IDLojanum>" rel="alternate">Contato</a>
+	</li>
+</ul>
+</div>
+<style type="text/css">
+.BarToplFC{display:block}</style>
+<!--
+<div class="BarToplFC">
+<div class="nivoSlider" id="slider"><img src="<baseloja>images/slide1.jpg"> <img src="<baseloja>images/slide2.jpg"> <img src="<baseloja>images/slide3.jpg"> <img src="<baseloja>images/slide4.jpg"></div>
+</div>
+-->
+<!-- 123 -->
+
+<p>aqui</p>
+
+<div id="boxBanner" style="width:990px; height:500px position: relative; display: table">
+  <includehtmlin in="home, listaprodutos" src="Banners2.html">
+</div>
+<link href="<baseloja>htm/CartAjaxFC.css" rel="stylesheet" type="text/css">
