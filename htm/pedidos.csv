@@ -1,0 +1,6 @@
+Nome Cliente,E-mail Cliente,Telefone,Cidade,Estado,Núm Pedido,Produto(s) do Pedido,Ref.,Qtd,Total sem frete,Frete,Total com frete,Opção de Pagamento,Cartão,Status,Feito em,Obs curta,Entregue Em,Objeto SEDEX,Desconto cupom,Cód. Barras,Celular
+"Antonio Lima","linkindef_at@yahoo.com.br","1122226666","São Paul'o","SP",15564,"Camisa Adidas F'50 – 005","PRO0011",1,"3500.00","0.00","3500.00","Depósito bancário","-","Novo",17/01/2014 09:39:00,,,,0,,""
+"Equipe FC","teste@fastcommerce.com.br","11-5052-9339","São Paulo","SP",15566,"Nike Air 2012 - API","API001",1,"1000.00","0.00","1000.00","Bcash Boleto","-","Novo",15/04/2014 16:50:00,,,,0,,""
+"Equipe FC","teste@fastcommerce.com.br","11-5052-9339","São Paulo","SP",15567,"Camisa Adidas F'50 – 005","PRO0011",1,"3500.00","0.00","3500.00","Depósito bancário","-","Novo",15/04/2014 18:00:00,,,,0,,""
+"Equipe FC","teste@fastcommerce.com.br","11-5052-9339","São Paulo","SP",15568,"Nike Air 2012 - API","API001",1,"700.00","0.00","700.00","Depósito bancário","-","Novo",16/04/2014 10:26:00,,,,0,,""
+"Equipe FC","teste@fastcommerce.com.br","11-5052-9339","São Paulo","SP",15569,"Nike Air 2012 - API","API001",1,"700.00","0.00","700.00","Depósito bancário","-","Novo",16/04/2014 10:29:00,,,,0,,""
