@@ -1,0 +1,101 @@
+<!--includeZoom-->
+<!-- comeÃ§o :: zoom com vÃ¡rias imagens -->
+      <script>
+      var imgDetAll = "<ImagemProdDet>";
+      var imgAmpAll = "<ImagemProdAmp>";
+      var novoArray = imgDetAll.split(',');
+      var novoArrayAmp = imgAmpAll.split(',');
+      var CountImgDet=novoArray.length;
+      var CountImgAmp=novoArrayAmp.length;
+      
+      if (imgDetAll=="" || imgAmpAll==""){
+        document.write("");
+      }
+      else{
+        if (CountImgDet==CountImgAmp){
+          var FC_MaxImages=CountImgDet-1;
+          MostraZoomImgFC();
+        }
+        else{
+          var FC_MaxImages=0;
+          MostraZoomImgFC();
+        }
+      }
+      
+      function MostraZoomImgFC(){
+        for (var i=0;i<=FC_MaxImages;i++)
+        {
+          if(i==0)
+          {
+            imgDetMini=novoArray[i];
+            imgAmpMini=novoArrayAmp[i];
+            document.write("<a href="+imgAmpMini+" title=<NomeProd> class=MagicZoom id=Zoomer><img src="+ imgDetMini +"></a><br>");
+            document.write("<a href="+imgAmpMini+"  rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class=ZoomIMG></a>");
+          }
+          else{
+                imgDetMini="<BaseLoja>prod/"+novoArray[i];
+                imgAmpMini="<BaseLoja>prod/"+novoArrayAmp[i];
+                document.write("<a href="+imgAmpMini+" rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class=ZoomIMG></a>");
+          }
+        }
+      }
+      </script>
+<!-- fim :: zoom com vÃ¡rias imagens -->
+
+<p>Param1 = <param1></p>
+<p>Param2 = <param2></p>
+<p>Param3 = <param3></p>
+<p>Param4 = <param4></p>
+<p>Param5 = <param5></p>
+<p>Param6 = <param6></p>
+<p>Param7 = <param7></p>
+<p>Param8 = <param8></p>
+<p>Param9 = <param9></p>
+
+
+*
+ <!-- começo :: zoom com várias imagens -->
+<script>
+var imgDetAll = "<ImagemProdDet>";
+var imgAmpAll = "<ImagemProdAmp>";
+var novoArray = imgDetAll.split(',');
+var novoArrayAmp = imgAmpAll.split(',');
+var CountImgDet=novoArray.length;
+var CountImgAmp=novoArrayAmp.length;
+
+if (imgDetAll=="" || imgAmpAll==""){
+  document.write("");
+}
+else{
+  if (CountImgDet==CountImgAmp){
+    var FC_MaxImages=CountImgDet-1;
+    MostraZoomImgFC();
+  }
+  else{
+    var FC_MaxImages=0;
+    MostraZoomImgFC();
+  }
+}
+
+function MostraZoomImgFC(){
+  for (var i=0;i<=FC_MaxImages;i++)
+  {
+    if(i==0)
+    {
+      imgDetMini=novoArray[i];
+      imgAmpMini=novoArrayAmp[i];
+      document.write("<a href="+imgAmpMini+" title=<NomeProd> class=MagicZoom id=Zoomer><img src="+ imgDetMini +"></a><br>");
+
+      if(novoArray.length>1)document.write("<a href="+imgAmpMini+"  rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class=ZoomIMG></a>");
+    }
+    else{
+          if(novoArray.length>1){
+            imgDetMini="<BaseLoja>prod/"+novoArray[i];
+            imgAmpMini="<BaseLoja>prod/"+novoArrayAmp[i];
+            document.write("<a href="+imgAmpMini+" rel='zoom-id:Zoomer;' rev="+ imgDetMini +"><img src="+ imgDetMini +" width=75 height=75 class=ZoomIMG></a>");
+          }
+    } 
+  }
+}
+</script>
+<!-- fim :: zoom com várias imagens -->
