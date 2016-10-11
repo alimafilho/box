@@ -1,0 +1,153 @@
+<!-- Começo da integração IFrame Bach FC Xtreme Checkout -->
+<script type="text/javascript">
+//DEFININDO O MEIO DE PAGAMENTO PARA O BCASH - EXEMPLO:
+//VISA e outras bandeiras = 1
+//Mastercard e outras bandeiras = 2
+//Boleto = 10
+//Transferência OnLine Banco do Brasil = 58
+//Transferência OnLine Banco Bradesco =  59
+//Transferência OnLine Banco Itaú  = 60
+//Transferência OnLine Banco Banrisul =  61
+//Transferência OnLine Banco HSBC =  62
+//Todos os meios de pagamento = 0 (Definição FastCommerce)
+
+var temPagamentoBcash = false;
+var temDesconto = false;
+switch (<IDFormaPagamento>) {
+        //Forma de pagto adicionais 1
+        case 9:
+            meioPagamentoBcash = "10";
+            temPagamentoBcash = true;
+            temDesconto = true;
+            break;
+        //Forma de pagto adicionais 2
+        case 10:
+            meioPagamentoBcash = "60";
+            temPagamentoBcash = true;
+            temDesconto = true;
+            break;
+        //Forma de pagto adicionais 3
+        case 11:
+            meioPagamentoBcash = "59";
+            temPagamentoBcash = true;
+            temDesconto = true;
+            break;
+        //Forma de pagto adicionais 4
+        case 12:
+            meioPagamentoBcash = "58";
+            temPagamentoBcash = true;
+            break;
+        //Forma de pagto adicionais 5
+        case 13:
+            meioPagamentoBcash = "0"; //Exibe todos os meios de pagamentos
+            temPagamentoBcash = true;
+            break;        
+        default:
+            // se não for nenhum dos cases acima, então:
+            meioPagamentoBcash = -1;
+            temPagamentoBcash = false;
+    }
+
+if(temPagamentoBcash && meioPagamentoBcash != -1){
+  sBcash='<form name="bcash" action="https://www.bcash.com.br/checkout/pay/" method="post" target="iframe_pd_pf">';
+  sBcash+='<input name="email_loja" type="hidden" value="pedidos@gazy.com.br">';
+  sBcash+='<input name="id_pedido" type="hidden" value="<NumPedido>">';
+  sBcash+='<input name="email" type="hidden" value="<EmailCliente>">';
+  sBcash+='<input name="nome" type="hidden" value="<NomeCompletoCliente>">';
+  sBcash+='<input name="cpf" type="hidden" value="<CPFCNPJ>">';
+  sBcash+='<input name="telefone" type="hidden" value="<TelefoneCliente>">';
+  sBcash+='<input name="endereco" type="hidden" value="<EnderecoCliente>">';
+  sBcash+='<input name="bairro" type="hidden" value="<BairroCliente>">';
+  sBcash+='<input name="cidade" type="hidden" value="<CidadeCliente>">';
+  sBcash+='<input name="estado" type="hidden" value="<EstadoCliente>">';
+  sBcash+='<input name="cep" type="hidden" value="<CEPCliente>">';
+  sBcash+='<input name="produto_codigo_1" type="hidden" value="<RefProduto1>">';
+  sBcash+='<input name="produto_descricao_1" type="hidden" value="<NomeProduto1>">';
+  sBcash+='<input name="produto_qtde_1" type="hidden" value="<QtdProduto1>">';
+  sBcash+='<input name="produto_valor_1" type="hidden" value="<PrecoUnitProduto1>">';
+  sBcash+='<input name="produto_codigo_2" type="hidden" value="<RefProduto2>">';
+  sBcash+='<input name="produto_descricao_2" type="hidden" value="<NomeProduto2>">';
+  sBcash+='<input name="produto_qtde_2" type="hidden" value="<QtdProduto2>">';
+  sBcash+='<input name="produto_valor_2" type="hidden" value="<PrecoUnitProduto2>">';
+  sBcash+='<input name="produto_codigo_3" type="hidden" value="<RefProduto3>">';
+  sBcash+='<input name="produto_descricao_3" type="hidden" value="<NomeProduto3>">';
+  sBcash+='<input name="produto_qtde_3" type="hidden" value="<QtdProduto3>">';
+  sBcash+='<input name="produto_valor_3" type="hidden" value="<PrecoUnitProduto3>">';
+  sBcash+='<input name="produto_codigo_4" type="hidden" value="<RefProduto4>">';
+  sBcash+='<input name="produto_descricao_4" type="hidden" value="<NomeProduto4>">';
+  sBcash+='<input name="produto_qtde_4" type="hidden" value="<QtdProduto4>">';
+  sBcash+='<input name="produto_valor_4" type="hidden" value="<PrecoUnitProduto4>">';
+  sBcash+='<input name="produto_codigo_5" type="hidden" value="<RefProduto5>">';
+  sBcash+='<input name="produto_descricao_5" type="hidden" value="<NomeProduto5>">';
+  sBcash+='<input name="produto_qtde_5" type="hidden" value="<QtdProduto5>">';
+  sBcash+='<input name="produto_valor_5" type="hidden" value="<PrecoUnitProduto5>">';
+  sBcash+='<input name="produto_codigo_6" type="hidden" value="<RefProduto6>">';
+  sBcash+='<input name="produto_descricao_6" type="hidden" value="<NomeProduto6>">';
+  sBcash+='<input name="produto_qtde_6" type="hidden" value="<QtdProduto6>">';
+  sBcash+='<input name="produto_valor_6" type="hidden" value="<PrecoUnitProduto6>">';
+  sBcash+='<input name="produto_codigo_7" type="hidden" value="<RefProduto7>">';
+  sBcash+='<input name="produto_descricao_7" type="hidden" value="<NomeProduto7>">';
+  sBcash+='<input name="produto_qtde_7" type="hidden" value="<QtdProduto7>">';
+  sBcash+='<input name="produto_valor_7" type="hidden" value="<PrecoUnitProduto7>">';
+  sBcash+='<input name="produto_codigo_8" type="hidden" value="<RefProduto8>">';
+  sBcash+='<input name="produto_descricao_8" type="hidden" value="<NomeProduto8>">';
+  sBcash+='<input name="produto_qtde_8" type="hidden" value="<QtdProduto8>">';
+  sBcash+='<input name="produto_valor_8" type="hidden" value="<PrecoUnitProduto8>">';
+  sBcash+='<input name="produto_codigo_9" type="hidden" value="<RefProduto9>">';
+  sBcash+='<input name="produto_descricao_9" type="hidden" value="<NomeProduto9>">';
+  sBcash+='<input name="produto_qtde_9" type="hidden" value="<QtdProduto9>">';
+  sBcash+='<input name="produto_valor_9" type="hidden" value="<PrecoUnitProduto9>">';
+  sBcash+='<input name="produto_codigo_10" type="hidden" value="<RefProduto10>">';
+  sBcash+='<input name="produto_descricao_10" type="hidden" value="<NomeProduto10>">';
+  sBcash+='<input name="produto_qtde_10" type="hidden" value="<QtdProduto10>">';
+  sBcash+='<input name="produto_valor_10" type="hidden" value="<PrecoUnitProduto10>">';
+  sBcash+='<input name="tipo_integracao" type="hidden" value="PAD">';
+  sBcash+='<input name="frete" type="hidden" value="<Frete>">';
+  sBcash+='<input name="desconto" type="hidden" value="">';
+  sBcash+='<input name="acrescimo" type="hidden" value="<ValorEmbalagemPedido>">';
+    if(meioPagamentoBcash !== 0)sBcash+='<input name="meio_pagamento" type="hidden" value="' +meioPagamentoBcash+ '">'; //Pré define um meio de pagamento no Bcash
+  sBcash+='</form>';
+
+  /**************** REMOVER ****************/
+  sBcash+='<br /><h1>Pagto Adic=<IDFormaPagamento> - Meio Bcash='+ meioPagamentoBcash +'</h1>';
+  /**************** REMOVER ****************/
+
+  var t = setTimeout("document.bcash.submit();",1000); //2 seconds measured in miliseconds
+
+  //SCRIPT IFRAME XTREME CHECKOUT
+  sBcash+="<iframe name='iframe_pd_pf' src='' width='980px' height='1300px' frameborder='0'></iframe><br>"; //INSTRUÇÕES E BOTÃO PARA PAGAMENTO
+
+   var oChkEnd=F$.GetID("idChkEndFC");
+   if(oChkEnd){
+     var oNewElementbCash=document.createElement("div");
+     oNewElementbCash.setAttribute("id","DivShowBcash");
+     oDivShowBcash=oChkEnd.parentNode.insertBefore(oNewElementbCash,oChkEnd);
+     oDivShowBcash.innerHTML=sBcash;
+     
+     var oChkBottom=F$.GetID("idChkBottomFC");
+     F$.FooterHeight+=1300;
+     if(oChkBottom)setTimeout("F$.fnIntoView(oChkBottom);",100);
+     
+   }
+  //FIM SCRIPT IFRAME XTREME CHECKOUT
+
+  var TotalSFrete=<TotalSemFrete>;
+  var NumP=<NumParcelas>;
+
+  //Verifica se tem desconto para pagamento à vista
+  if(temDesconto){
+     //Informe o desconto que é oferecido de acordo com as regras da página "Pagamentos".
+     if(TotalSFrete>=210)var Desc1=30;
+     else if(TotalSFrete>=160)var Desc1=20;
+     else if(TotalSFrete>=90)var Desc1=10;
+
+   var Desc1;
+   var FatorDesc=Desc1/100;
+   Total=((TotalSFrete*100)/(100-Desc1)*FatorDesc);
+
+    //coloca o resultado no campo hidden
+    document.bcash.desconto.value=Total;
+  }
+}
+</script>
+<!-- Final da integração IFrame Bach FC Xtreme Checkout -->
